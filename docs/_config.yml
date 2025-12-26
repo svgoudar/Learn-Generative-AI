@@ -25,7 +25,7 @@ bibtex_bibfiles:
 
 # Information about where the book exists on the web
 repository:
-  url: https://github.com/svgoudar/Learn-ML-and-NLP  # Online location of your book
+  url: https://github.com/svgoudar/Learn-Generative-AI  # Online location of your book
   branch: master  # Which branch of the repository should be used when creating links (optional)
 
 # Add GitHub buttons to your book
@@ -130,34 +130,34 @@ sphinx:
     html_theme_options:
       navigation_with_keys: false
 
-#   extra_extensions:
-#     - sphinx_click.ext
-#     - sphinx_inline_tabs
-#     - sphinxext.rediraffe
-#     - sphinx_proof
-#     - sphinx_examples
-#     - sphinx_togglebutton
-#     - sphinx_design
-#     - sphinx_copybutton
-#     - hoverxref.extension
-#     - sphinx_sitemap
+  extra_extensions:
+    - sphinx_click.ext
+    - sphinx_inline_tabs
+    - sphinxext.rediraffe
+    - sphinx_proof
+    - sphinx_examples
+    - sphinx_togglebutton
+    - sphinx_design
+    - sphinx_copybutton
+    - hoverxref.extension
+    - sphinx_sitemap
 
-# extra_extensions:
-#     - sphinx_click.ext
-#     - sphinx_inline_tabs
-#     - sphinxext.rediraffe
-#     - sphinx_proof
-#     - sphinx_examples
-#     - sphinx_togglebutton
-#     - sphinx_design
-#     - sphinx_copybutton
-#     - hoverxref.extension
-#     - sphinx_sitemap
-# hoverxref_role_types:
-#   ref: tooltip
-#   numref: tooltip
-#   term: tooltip
+extra_extensions:
+    - sphinx_click.ext
+    - sphinx_inline_tabs
+    - sphinxext.rediraffe
+    - sphinx_proof
+    - sphinx_examples
+    - sphinx_togglebutton
+    - sphinx_design
+    - sphinx_copybutton
+    - hoverxref.extension
+    - sphinx_sitemap
+hoverxref_role_types:
+  ref: tooltip
+  numref: tooltip
+  term: tooltip
 
-# hoverxref_auto_ref: true
-# hoverxref_domains: ["std"]
-# hoverxref_roles: ["ref", "term"]
+hoverxref_auto_ref: true
+hoverxref_domains: ["std"]
+hoverxref_roles: ["ref", "term"]
