@@ -1,0 +1,994 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>GenAI Curriculum Overview &#8212; Machine Learning Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'intro';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Model Families Overview" href="Gen-AI/01-Model-Families/overview.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="#">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Machine Learning Handbook - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Machine Learning Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1 current active">
+                <a class="reference internal" href="#">
+                    GenAI Curriculum Overview
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="Gen-AI/01-Model-Families/overview.html">Model Families Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/01-Model-Families/01-Transformer.html">Transformer Architecture</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/01-Model-Families/02-Encoder-Decoder-Models.html">Encoder–Decoder Model (Seq2Seq Architecture)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/01-Model-Families/03-Decoder-Only-Models.html">Decoder-Only Models (Autoregressive Architecture)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/01-Model-Families/04-Mixture-of-Experts.html">Mixture of Experts (MoE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/01-Model-Families/05-Diffusion-Models.html">Diffusion Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/01-Model-Families/06-Variational-Autoencoders.html">Autoencoders and Variational Autoencoders (VAE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/01-Model-Families/07-GANs.html">Generative Adversarial Networks (GANs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/01-Model-Families/08-Autoregressive-Models.html">Autoregressive Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/01-Model-Families/09-State-Space-Models.html">State Space Models (SSM)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Gen-AI/02-Key-Architectural-Components/overview.html">Key Architectural Components Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/02-Key-Architectural-Components/01-Self-Attention.html">Attention Mechanism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/02-Key-Architectural-Components/02-Multi-Head-Attention.html">Multi-Head Attention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/02-Key-Architectural-Components/03-Positional-Encoding.html">Positional Encodings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/02-Key-Architectural-Components/04-Feedforward-Networks.html">Feedforward Neural Network (FNN)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/02-Key-Architectural-Components/05-Layer-Normalization.html">Layer Normalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/02-Key-Architectural-Components/06-Residual-Connections.html">Residual Connection (Skip Connection)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/02-Key-Architectural-Components/07-Cross-Attention.html">Cross-Attention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/02-Key-Architectural-Components/08-Sparse-Attention.html">Sparse Attention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/02-Key-Architectural-Components/09-Rotary-Embeddings.html">Rotary Positional Embeddings (RoPE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/02-Key-Architectural-Components/10-KV-Caching.html">KV Cache</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Gen-AI/03-Model-Training-Concepts/overview.html">Model Training Concepts Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/03-Model-Training-Concepts/01-Pretraining.html">Pretraining</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/03-Model-Training-Concepts/02-Self-supervised-learning.html">Self-Supervised Learning (SSL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/03-Model-Training-Concepts/03-Instruction-tuning.html">Instruction Tuning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/03-Model-Training-Concepts/04-Supervised-fine-tuning.html">Supervised Fine-Tuning (SFT)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/03-Model-Training-Concepts/05-RLHF.html">Reinforcement Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/03-Model-Training-Concepts/06-Preference-modeling.html">Preference Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/03-Model-Training-Concepts/07-Curriculum-learning.html">Curriculum Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/03-Model-Training-Concepts/08-Continual-learning.html">Continual Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/03-Model-Training-Concepts/09-Model-alignment.html">Model Alignment</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Gen-AI/04-Core-LLM-Generation-Concepts/overview.html">Core LLM Generation Concepts</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/04-Core-LLM-Generation-Concepts/01-Tokenization.html"><strong>Tokenization</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/04-Core-LLM-Generation-Concepts/02-Context-window.html">Context Window and Sliding Window</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/04-Core-LLM-Generation-Concepts/03-Inference.html">Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/04-Core-LLM-Generation-Concepts/04-Sampling.html">Sampling Stratergies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/04-Core-LLM-Generation-Concepts/05-Prompting.html">Prompting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/04-Core-LLM-Generation-Concepts/06-Zero-shot-Few-shot-learning.html">Zero-Shot and Few-Shot Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/04-Core-LLM-Generation-Concepts/07-Chain-of-Thought.html"><strong>Chain-of-Thought (CoT) Prompting</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/04-Core-LLM-Generation-Concepts/08-ReAct-prompting.html">ReAct Prompting (Reason + Act)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/04-Core-LLM-Generation-Concepts/09-Tool-calling-Function-calling.html">Tool &amp; Function Calling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/04-Core-LLM-Generation-Concepts/10-Structured-generation.html">Structured Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/04-Core-LLM-Generation-Concepts/11-Multimodal-generation.html">Multimodal Generation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Gen-AI/05-Retrieval-Knowledge-Concepts/overview.html">Retrieval &amp; Knowledge Concepts Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/05-Retrieval-Knowledge-Concepts/01-Retrieval-Augmented-Generation.html">Retrieval-Augmented Generation (RAG)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/05-Retrieval-Knowledge-Concepts/02-Embeddings.html">Embeddings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/05-Retrieval-Knowledge-Concepts/03-11-Beam_Search.html">Beam Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/05-Retrieval-Knowledge-Concepts/03-Semantic-search.html">Semantic Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/05-Retrieval-Knowledge-Concepts/04-Hybrid-search.html">Hybrid Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/05-Retrieval-Knowledge-Concepts/05-Chunking.html">Chunking and Chunk Overlap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/05-Retrieval-Knowledge-Concepts/06-Re-ranking.html">Re-Ranking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/05-Retrieval-Knowledge-Concepts/07-Indexing.html">Indexing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/05-Retrieval-Knowledge-Concepts/08-Knowledge-grounding.html">Knowledge Grounding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/05-Retrieval-Knowledge-Concepts/09-Citation-generation.html">Citation Generation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Gen-AI/06-Memory-Context-Management/overview.html">Memory &amp; Context Management Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/06-Memory-Context-Management/01-Short-term-memory.html">Short-Term Memory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/06-Memory-Context-Management/02-Long-term-memory.html">Long-Term Memory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/06-Memory-Context-Management/03-Conversational-memory.html">Conversational Memory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/06-Memory-Context-Management/04-Session-memory.html">Session Memory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/06-Memory-Context-Management/05-Context-compression.html">Context Compression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/06-Memory-Context-Management/06-Context-pruning.html">Context Pruning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/06-Memory-Context-Management/07-Summarization-memory.html">Summarization Memory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/06-Memory-Context-Management/08-Episodic-memory.html">Episodic Memory</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Gen-AI/07-Generation-Control-Safety/overview.html">Generation Control &amp; Safety Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/07-Generation-Control-Safety/01-Hallucination.html">Hallucination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/07-Generation-Control-Safety/02-Guardrails.html">Guardrails</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/07-Generation-Control-Safety/03-Content-moderation.html">Content Moderation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/07-Generation-Control-Safety/04-Safety-alignment.html">Safety Alignment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/07-Generation-Control-Safety/05-Bias-mitigation.html">Bias Mitigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/07-Generation-Control-Safety/06-Toxicity-filtering.html">Toxicity Filtering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/07-Generation-Control-Safety/07-Red-teaming.html">Red Teaming in Generative AI (GenAI)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/07-Generation-Control-Safety/08-Output-constraints.html">Output Constraints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/07-Generation-Control-Safety/09-Prompt-injection.html">Prompt Injection</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Gen-AI/08-Model-Data-Operations/overview.html">Model &amp; Data Operations Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/08-Model-Data-Operations/01-Model-serving.html">Model Serving</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/08-Model-Data-Operations/02-Model-routing.html">Model Routing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/08-Model-Data-Operations/03-Model-fallback.html">Model Fallback</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/08-Model-Data-Operations/04-Distillation.html">Knowledge Distillation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/08-Model-Data-Operations/05-Quantization.html">Quantization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/08-Model-Data-Operations/06-Caching.html">Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/08-Model-Data-Operations/07-Token-optimization.html">Token Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/08-Model-Data-Operations/08-Cost-optimization.html">Cost Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/08-Model-Data-Operations/08-Model-Data-Operations.html">Model–Data Operations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Gen-AI/09-Architecture-Infrastructure/overview.html">Architecture &amp; Infrastructure Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/09-Architecture-Infrastructure/01-Inference-pipeline.html">Inference Pipeline in Generative AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/09-Architecture-Infrastructure/02-Orchestration-layer.html">Orchestration Layer in Generative AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/09-Architecture-Infrastructure/03-LLM-gateway.html">LLM Gateway</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/09-Architecture-Infrastructure/04-API-management.html">API Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/09-Architecture-Infrastructure/05-Microservices-architecture.html">Microservice Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/09-Architecture-Infrastructure/06-Distributed-systems.html">Distributed Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/09-Architecture-Infrastructure/07-Event-driven-pipelines.html">Event-Driven Pipelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/09-Architecture-Infrastructure/08-Horizontal-scaling.html">Horizontal Scaling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/09-Architecture-Infrastructure/09-Architecture-Infrastructure.html">Architecture &amp; Infrastructure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/09-Architecture-Infrastructure/09-Load-balancing.html">Load Balancing in Generative AI Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/09-Architecture-Infrastructure/10-Rate-limiting.html">Rate Limiting</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Gen-AI/10-Data-Knowledge-Infrastructure/overview.html">Data &amp; Knowledge Infrastructure Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/10-Data-Knowledge-Infrastructure/01-Data-ingestion.html">Data Ingestion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/10-Data-Knowledge-Infrastructure/02-ETL-for-GenAI.html">ETL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/10-Data-Knowledge-Infrastructure/03-Data-pipelines.html">Data Pipelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/10-Data-Knowledge-Infrastructure/04-Vector-databases.html">Vector Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/10-Data-Knowledge-Infrastructure/05-Metadata-stores.html">Metadata Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/10-Data-Knowledge-Infrastructure/06-Feature-stores.html">Feature Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/10-Data-Knowledge-Infrastructure/07-Document-stores.html">Document Stores</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Gen-AI/11-Performance-Reliability/overview.html">Performance &amp; Reliability Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/11-Performance-Reliability/01-Latency-optimization.html">Latency Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/11-Performance-Reliability/02-Throughput-optimization.html">Throughput Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/11-Performance-Reliability/03-Streaming.html">Streaming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/11-Performance-Reliability/04-Asynchronous-processing.html">Asynchronous Processing</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/11-Performance-Reliability/05-Backpressure-control.html">Backpressure Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/11-Performance-Reliability/06-Circuit-breakers.html">Circuit Breakers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/11-Performance-Reliability/07-Retries-timeouts.html">Retries &amp; Timeout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/11-Performance-Reliability/08-Graceful-degradation.html">Graceful Degradation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/11-Performance-Reliability/11-Performance-Reliability.html">Performance Reliability</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Gen-AI/12-Security-Compliance/overview.html">Security &amp; Compliance Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/12-Security-Compliance/01-Data-privacy.html">Data Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/12-Security-Compliance/02-PII-detection-redaction.html">PII Detection &amp; Redaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/12-Security-Compliance/03-Encryption.html">Encryption</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/12-Security-Compliance/04-Access-control.html">Access Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/12-Security-Compliance/05-Authentication-authorization.html">Authentication &amp; Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/12-Security-Compliance/06-Audit-logging.html">Audit Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/12-Security-Compliance/07-Compliance-frameworks.html">Compliance Framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/12-Security-Compliance/08-Prompt-injection-defense.html">Prompt Injection Defense</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/12-Security-Compliance/12-Security-Compliance.html">Security &amp; Compliance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Gen-AI/13-Observability-Governance/overview.html">Observability &amp; Governance Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/13-Observability-Governance/01-Logging.html">Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/13-Observability-Governance/02-Monitoring.html">Monitoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/13-Observability-Governance/03-Tracing.html">Tracing in Generative AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/13-Observability-Governance/04-Quality-evaluation.html">Quality Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/13-Observability-Governance/05-Hallucination-tracking.html">Hallucination Tracking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/13-Observability-Governance/06-Feedback-loops.html">Feedback Loops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/13-Observability-Governance/07-AB-testing.html">A/B Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/13-Observability-Governance/08-Model-governance.html">Model Governance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/13-Observability-Governance/09-Policy-enforcement.html">Policy Enforcement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/13-Observability-Governance/13-Observability-Governance.html">Observability Governance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Gen-AI/14-Advanced-GenAI-Systems/overview.html">Advanced GenAI Systems Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/14-Advanced-GenAI-Systems/01-Agentic-systems.html">Agentic Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/14-Advanced-GenAI-Systems/02-Multi-agent-orchestration.html">Multi-Agent Orchestration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/14-Advanced-GenAI-Systems/03-Autonomous-workflows.html">Autonomous Workflows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/14-Advanced-GenAI-Systems/04-Tool-ecosystems.html">Tool Ecosystems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/14-Advanced-GenAI-Systems/05-Workflow-engines.html">Workflow Engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/14-Advanced-GenAI-Systems/06-Planning-reasoning-systems.html">Planning &amp; Reasoning Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/14-Advanced-GenAI-Systems/07-Self-reflection-loops.html">Self-Reflection Loops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/14-Advanced-GenAI-Systems/08-Multimodal-pipelines.html">Multi-Modal Pipeline</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Gen-AI/15-Product-Lifecycle-Management/overview.html">Product &amp; Lifecycle Management Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/15-Product-Lifecycle-Management/01-Prompt-lifecycle-management.html">Prompt Lifecycle Management (PLM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/15-Product-Lifecycle-Management/02-Model-lifecycle-management.html">Model Lifecycle Management (MLM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/15-Product-Lifecycle-Management/03-Continuous-learning.html">Continuous Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/15-Product-Lifecycle-Management/04-Human-in-the-loop-systems.html">Human-in-the-Loop (HITL) Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/15-Product-Lifecycle-Management/05-Release-management.html">Release Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/15-Product-Lifecycle-Management/06-Rollbacks.html">Rollbacks in Generative AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gen-AI/15-Product-Lifecycle-Management/07-Experimentation-frameworks.html">Experimental Frameworks</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/svgoudar/Learn-ML-and-NLP/blob/master/intro.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/Learn-ML-and-NLP" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/Learn-ML-and-NLP/issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/intro.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>GenAI Curriculum Overview</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="genai-curriculum-overview">
+<h1>GenAI Curriculum Overview<a class="headerlink" href="#genai-curriculum-overview" title="Permalink to this heading">#</a></h1>
+<p>A comprehensive guide to building production-ready generative AI applications. This curriculum covers foundational concepts, architectures, training paradigms, and advanced deployment patterns for modern GenAI systems.</p>
+<hr class="docutils" />
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
+<div class="sd-row sd-row-cols-1 sd-row-cols-xs-1 sd-row-cols-sm-1 sd-row-cols-md-2 sd-row-cols-lg-3 sd-g-3 sd-g-xs-3 sd-g-sm-3 sd-g-md-3 sd-g-lg-3 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-header bg-grid-header docutils">
+<p class="sd-card-text"><span class="grid-title">Model Families</span></p>
+</div>
+<div class="sd-card-body grid-center bg-grid-body docutils">
+<ul class="simple">
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/01-Model-Families/01-Transformer.html"><span class="doc std std-doc">Transformer</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/01-Model-Families/02-Encoder-Decoder-Models.html"><span class="doc std std-doc">Encoder-Decoder Models</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/01-Model-Families/03-Decoder-Only-Models.html"><span class="doc std std-doc">Decoder-Only Models</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/01-Model-Families/04-Mixture-of-Experts.html"><span class="doc std std-doc">Mixture of Experts</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/01-Model-Families/05-Diffusion-Models.html"><span class="doc std std-doc">Diffusion Models</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/01-Model-Families/06-Variational-Autoencoders.html"><span class="doc std std-doc">Variational Autoencoders</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/01-Model-Families/07-GANs.html"><span class="doc std std-doc">GANs</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/01-Model-Families/08-Autoregressive-Models.html"><span class="doc std std-doc">Autoregressive Models</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/01-Model-Families/09-State-Space-Models.html"><span class="doc std std-doc">State Space Models</span></a></p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-header bg-grid-header docutils">
+<p class="sd-card-text"><span class="grid-title">Key Architectural Components</span></p>
+</div>
+<div class="sd-card-body grid-center bg-grid-body docutils">
+<ul class="simple">
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/02-Key-Architectural-Components/01-Self-Attention.html"><span class="doc std std-doc">Self-Attention</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/02-Key-Architectural-Components/02-Multi-Head-Attention.html"><span class="doc std std-doc">Multi-Head Attention</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/02-Key-Architectural-Components/03-Positional-Encoding.html"><span class="doc std std-doc">Positional Encoding</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/02-Key-Architectural-Components/04-Feedforward-Networks.html"><span class="doc std std-doc">Feedforward Networks</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/02-Key-Architectural-Components/05-Layer-Normalization.html"><span class="doc std std-doc">Layer Normalization</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/02-Key-Architectural-Components/06-Residual-Connections.html"><span class="doc std std-doc">Residual Connections</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/02-Key-Architectural-Components/07-Cross-Attention.html"><span class="doc std std-doc">Cross-Attention</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/02-Key-Architectural-Components/08-Sparse-Attention.html"><span class="doc std std-doc">Sparse Attention</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/02-Key-Architectural-Components/09-Rotary-Embeddings.html"><span class="doc std std-doc">Rotary Embeddings</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/02-Key-Architectural-Components/10-KV-Caching.html"><span class="doc std std-doc">KV Caching</span></a></p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-header bg-grid-header docutils">
+<p class="sd-card-text"><span class="grid-title">Model Training Concepts</span></p>
+</div>
+<div class="sd-card-body grid-center bg-grid-body docutils">
+<ul class="simple">
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/03-Model-Training-Concepts/01-Pretraining.html"><span class="doc std std-doc">Pretraining</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/03-Model-Training-Concepts/02-Self-supervised-learning.html"><span class="doc std std-doc">Self-supervised Learning</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/03-Model-Training-Concepts/03-Instruction-tuning.html"><span class="doc std std-doc">Instruction Tuning</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/03-Model-Training-Concepts/04-Supervised-fine-tuning.html"><span class="doc std std-doc">Supervised Fine-tuning</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/03-Model-Training-Concepts/05-RLHF.html"><span class="doc std std-doc">RLHF</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/03-Model-Training-Concepts/06-Preference-modeling.html"><span class="doc std std-doc">Preference Modeling</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/03-Model-Training-Concepts/07-Curriculum-learning.html"><span class="doc std std-doc">Curriculum Learning</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/03-Model-Training-Concepts/08-Continual-learning.html"><span class="doc std std-doc">Continual Learning</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/03-Model-Training-Concepts/09-Model-alignment.html"><span class="doc std std-doc">Model Alignment</span></a></p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-header bg-grid-header docutils">
+<p class="sd-card-text"><span class="grid-title">Core LLM Generation Concepts</span></p>
+</div>
+<div class="sd-card-body grid-center bg-grid-body docutils">
+<ul class="simple">
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/04-Core-LLM-Generation-Concepts/01-Tokenization.html"><span class="doc std std-doc">Tokenization</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/04-Core-LLM-Generation-Concepts/02-Context-window.html"><span class="doc std std-doc">Context Window</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/04-Core-LLM-Generation-Concepts/03-Inference.html"><span class="doc std std-doc">Inference</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/04-Core-LLM-Generation-Concepts/04-Sampling.html"><span class="doc std std-doc">Sampling</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/04-Core-LLM-Generation-Concepts/05-Prompting.html"><span class="doc std std-doc">Prompting</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/04-Core-LLM-Generation-Concepts/06-Zero-shot-Few-shot-learning.html"><span class="doc std std-doc">Zero-shot &amp; Few-shot Learning</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/04-Core-LLM-Generation-Concepts/07-Chain-of-Thought.html"><span class="doc std std-doc">Chain-of-Thought</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/04-Core-LLM-Generation-Concepts/08-ReAct-prompting.html"><span class="doc std std-doc">ReAct Prompting</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/04-Core-LLM-Generation-Concepts/09-Tool-calling-Function-calling.html"><span class="doc std std-doc">Tool/Function Calling</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/04-Core-LLM-Generation-Concepts/10-Structured-generation.html"><span class="doc std std-doc">Structured Generation</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/04-Core-LLM-Generation-Concepts/11-Multimodal-generation.html"><span class="doc std std-doc">Multimodal Generation</span></a></p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-header bg-grid-header docutils">
+<p class="sd-card-text"><span class="grid-title">Retrieval &amp; Knowledge Concepts</span></p>
+</div>
+<div class="sd-card-body grid-center bg-grid-body docutils">
+<ul class="simple">
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/05-Retrieval-Knowledge-Concepts/01-Retrieval-Augmented-Generation.html"><span class="doc std std-doc">Retrieval-Augmented Generation</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/05-Retrieval-Knowledge-Concepts/02-Embeddings.html"><span class="doc std std-doc">Embeddings</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/05-Retrieval-Knowledge-Concepts/03-Semantic-search.html"><span class="doc std std-doc">Semantic Search</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/05-Retrieval-Knowledge-Concepts/04-Hybrid-search.html"><span class="doc std std-doc">Hybrid Search</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/05-Retrieval-Knowledge-Concepts/05-Chunking.html"><span class="doc std std-doc">Chunking</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/05-Retrieval-Knowledge-Concepts/06-Re-ranking.html"><span class="doc std std-doc">Re-ranking</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/05-Retrieval-Knowledge-Concepts/07-Indexing.html"><span class="doc std std-doc">Indexing</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/05-Retrieval-Knowledge-Concepts/08-Knowledge-grounding.html"><span class="doc std std-doc">Knowledge Grounding</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/05-Retrieval-Knowledge-Concepts/09-Citation-generation.html"><span class="doc std std-doc">Citation Generation</span></a></p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-header bg-grid-header docutils">
+<p class="sd-card-text"><span class="grid-title">Memory &amp; Context Management</span></p>
+</div>
+<div class="sd-card-body grid-center bg-grid-body docutils">
+<ul class="simple">
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/06-Memory-Context-Management/01-Short-term-memory.html"><span class="doc std std-doc">Short-term Memory</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/06-Memory-Context-Management/02-Long-term-memory.html"><span class="doc std std-doc">Long-term Memory</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/06-Memory-Context-Management/03-Conversational-memory.html"><span class="doc std std-doc">Conversational Memory</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/06-Memory-Context-Management/04-Session-memory.html"><span class="doc std std-doc">Session Memory</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/06-Memory-Context-Management/05-Context-compression.html"><span class="doc std std-doc">Context Compression</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/06-Memory-Context-Management/06-Context-pruning.html"><span class="doc std std-doc">Context Pruning</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/06-Memory-Context-Management/07-Summarization-memory.html"><span class="doc std std-doc">Summarization Memory</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/06-Memory-Context-Management/08-Episodic-memory.html"><span class="doc std std-doc">Episodic Memory</span></a></p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-header bg-grid-header docutils">
+<p class="sd-card-text"><span class="grid-title">Generation Control &amp; Safety</span></p>
+</div>
+<div class="sd-card-body grid-center bg-grid-body docutils">
+<ul class="simple">
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/07-Generation-Control-Safety/01-Hallucination.html"><span class="doc std std-doc">Hallucination</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/07-Generation-Control-Safety/02-Guardrails.html"><span class="doc std std-doc">Guardrails</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/07-Generation-Control-Safety/03-Content-moderation.html"><span class="doc std std-doc">Content Moderation</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/07-Generation-Control-Safety/04-Safety-alignment.html"><span class="doc std std-doc">Safety Alignment</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/07-Generation-Control-Safety/05-Bias-mitigation.html"><span class="doc std std-doc">Bias Mitigation</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/07-Generation-Control-Safety/06-Toxicity-filtering.html"><span class="doc std std-doc">Toxicity Filtering</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/07-Generation-Control-Safety/07-Red-teaming.html"><span class="doc std std-doc">Red Teaming</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/07-Generation-Control-Safety/08-Output-constraints.html"><span class="doc std std-doc">Output Constraints</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/07-Generation-Control-Safety/09-Prompt-injection.html"><span class="doc std std-doc">Prompt Injection</span></a></p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-header bg-grid-header docutils">
+<p class="sd-card-text"><span class="grid-title">Model &amp; Data Operations</span></p>
+</div>
+<div class="sd-card-body grid-center bg-grid-body docutils">
+<ul class="simple">
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/08-Model-Data-Operations/01-Model-serving.html"><span class="doc std std-doc">Model Serving</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/08-Model-Data-Operations/02-Model-routing.html"><span class="doc std std-doc">Model Routing</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/08-Model-Data-Operations/03-Model-fallback.html"><span class="doc std std-doc">Model Fallback</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/08-Model-Data-Operations/04-Distillation.html"><span class="doc std std-doc">Distillation</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/08-Model-Data-Operations/05-Quantization.html"><span class="doc std std-doc">Quantization</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/08-Model-Data-Operations/06-Caching.html"><span class="doc std std-doc">Caching</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/08-Model-Data-Operations/07-Token-optimization.html"><span class="doc std std-doc">Token Optimization</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/08-Model-Data-Operations/08-Cost-optimization.html"><span class="doc std std-doc">Cost Optimization</span></a></p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-header bg-grid-header docutils">
+<p class="sd-card-text"><span class="grid-title">Architecture &amp; Infrastructure</span></p>
+</div>
+<div class="sd-card-body grid-center bg-grid-body docutils">
+<ul class="simple">
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/09-Architecture-Infrastructure/01-Inference-pipeline.html"><span class="doc std std-doc">Inference Pipeline</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/09-Architecture-Infrastructure/02-Orchestration-layer.html"><span class="doc std std-doc">Orchestration Layer</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/09-Architecture-Infrastructure/03-LLM-gateway.html"><span class="doc std std-doc">LLM Gateway</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/09-Architecture-Infrastructure/04-API-management.html"><span class="doc std std-doc">API Management</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/09-Architecture-Infrastructure/05-Microservices-architecture.html"><span class="doc std std-doc">Microservices Architecture</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/09-Architecture-Infrastructure/06-Distributed-systems.html"><span class="doc std std-doc">Distributed Systems</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/09-Architecture-Infrastructure/07-Event-driven-pipelines.html"><span class="doc std std-doc">Event-driven Pipelines</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/09-Architecture-Infrastructure/08-Horizontal-scaling.html"><span class="doc std std-doc">Horizontal Scaling</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/09-Architecture-Infrastructure/09-Load-balancing.html"><span class="doc std std-doc">Load Balancing</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/09-Architecture-Infrastructure/10-Rate-limiting.html"><span class="doc std std-doc">Rate Limiting</span></a></p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-header bg-grid-header docutils">
+<p class="sd-card-text"><span class="grid-title">Data &amp; Knowledge Infrastructure</span></p>
+</div>
+<div class="sd-card-body grid-center bg-grid-body docutils">
+<ul class="simple">
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/10-Data-Knowledge-Infrastructure/01-Data-ingestion.html"><span class="doc std std-doc">Data Ingestion</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/10-Data-Knowledge-Infrastructure/02-ETL-for-GenAI.html"><span class="doc std std-doc">ETL for GenAI</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/10-Data-Knowledge-Infrastructure/03-Data-pipelines.html"><span class="doc std std-doc">Data Pipelines</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/10-Data-Knowledge-Infrastructure/04-Vector-databases.html"><span class="doc std std-doc">Vector Databases</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/10-Data-Knowledge-Infrastructure/05-Metadata-stores.html"><span class="doc std std-doc">Metadata Stores</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/10-Data-Knowledge-Infrastructure/06-Feature-stores.html"><span class="doc std std-doc">Feature Stores</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/10-Data-Knowledge-Infrastructure/07-Document-stores.html"><span class="doc std std-doc">Document Stores</span></a></p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-header bg-grid-header docutils">
+<p class="sd-card-text"><span class="grid-title">Performance &amp; Reliability</span></p>
+</div>
+<div class="sd-card-body grid-center bg-grid-body docutils">
+<ul class="simple">
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/11-Performance-Reliability/01-Latency-optimization.html"><span class="doc std std-doc">Latency Optimization</span></a></p></li>
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/11-Performance-Reliability/02-Throughput-optimization.html"><span class="doc std std-doc">Throughput Optimization</span></a></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Failover Strategies</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Monitoring</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Alerting</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Auto-scaling</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Disaster Recovery</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Testing &amp; Validation</span></p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-header bg-grid-header docutils">
+<p class="sd-card-text"><span class="grid-title">Security &amp; Compliance</span></p>
+</div>
+<div class="sd-card-body grid-center bg-grid-body docutils">
+<ul class="simple">
+<li><p class="sd-card-text"><span class="xref myst">Authentication</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Authorization</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Privacy</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Data Encryption</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Audit Logging</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Compliance Standards</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Vulnerability Management</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Incident Response</span></p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-header bg-grid-header docutils">
+<p class="sd-card-text"><span class="grid-title">Observability &amp; Governance</span></p>
+</div>
+<div class="sd-card-body grid-center bg-grid-body docutils">
+<ul class="simple">
+<li><p class="sd-card-text"><a class="reference internal" href="Gen-AI/13-Observability-Governance/01-Logging.html"><span class="doc std std-doc">Logging</span></a></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Tracing</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Metrics</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Dashboards</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Alerting</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Governance</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Auditability</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Data Provenance</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Policy Management</span></p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-header bg-grid-header docutils">
+<p class="sd-card-text"><span class="grid-title">Advanced GenAI Systems</span></p>
+</div>
+<div class="sd-card-body grid-center bg-grid-body docutils">
+<ul class="simple">
+<li><p class="sd-card-text"><span class="xref myst">Agent Frameworks</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Multi-Agent Systems</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Tool Integration</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Autonomous Workflows</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Self-Improving Agents</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Human-in-the-Loop</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Evaluation &amp; Benchmarking</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Deployment Patterns</span></p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-header bg-grid-header docutils">
+<p class="sd-card-text"><span class="grid-title">Product &amp; Lifecycle Management</span></p>
+</div>
+<div class="sd-card-body grid-center bg-grid-body docutils">
+<ul class="simple">
+<li><p class="sd-card-text"><span class="xref myst">Productization</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Release Management</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Monitoring &amp; Feedback</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">Continuous Improvement</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">User Experience</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">A/B Testing</span></p></li>
+<li><p class="sd-card-text"><span class="xref myst">End-of-Life</span></p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="right-next"
+       href="Gen-AI/01-Model-Families/overview.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Model Families Overview</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By svgoudar
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

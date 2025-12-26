@@ -1,0 +1,1024 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Tokenization &#8212; Machine Learning Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Gen-AI/04-Core-LLM-Generation-Concepts/01-Tokenization';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Context Window and Sliding Window" href="02-Context-window.html" />
+    <link rel="prev" title="Core LLM Generation Concepts" href="overview.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Machine Learning Handbook - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Machine Learning Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-Model-Families/overview.html">Model Families Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/01-Transformer.html">Transformer Architecture</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/02-Encoder-Decoder-Models.html">Encoder–Decoder Model (Seq2Seq Architecture)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/03-Decoder-Only-Models.html">Decoder-Only Models (Autoregressive Architecture)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/04-Mixture-of-Experts.html">Mixture of Experts (MoE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/05-Diffusion-Models.html">Diffusion Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/06-Variational-Autoencoders.html">Autoencoders and Variational Autoencoders (VAE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/07-GANs.html">Generative Adversarial Networks (GANs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/08-Autoregressive-Models.html">Autoregressive Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/09-State-Space-Models.html">State Space Models (SSM)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-Key-Architectural-Components/overview.html">Key Architectural Components Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/01-Self-Attention.html">Attention Mechanism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/02-Multi-Head-Attention.html">Multi-Head Attention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/03-Positional-Encoding.html">Positional Encodings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/04-Feedforward-Networks.html">Feedforward Neural Network (FNN)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/05-Layer-Normalization.html">Layer Normalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/06-Residual-Connections.html">Residual Connection (Skip Connection)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/07-Cross-Attention.html">Cross-Attention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/08-Sparse-Attention.html">Sparse Attention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/09-Rotary-Embeddings.html">Rotary Positional Embeddings (RoPE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/10-KV-Caching.html">KV Cache</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-Model-Training-Concepts/overview.html">Model Training Concepts Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/01-Pretraining.html">Pretraining</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/02-Self-supervised-learning.html">Self-Supervised Learning (SSL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/03-Instruction-tuning.html">Instruction Tuning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/04-Supervised-fine-tuning.html">Supervised Fine-Tuning (SFT)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/05-RLHF.html">Reinforcement Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/06-Preference-modeling.html">Preference Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/07-Curriculum-learning.html">Curriculum Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/08-Continual-learning.html">Continual Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/09-Model-alignment.html">Model Alignment</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="overview.html">Core LLM Generation Concepts</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#"><strong>Tokenization</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-Context-window.html">Context Window and Sliding Window</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03-Inference.html">Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04-Sampling.html">Sampling Stratergies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-Prompting.html">Prompting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06-Zero-shot-Few-shot-learning.html">Zero-Shot and Few-Shot Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07-Chain-of-Thought.html"><strong>Chain-of-Thought (CoT) Prompting</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-ReAct-prompting.html">ReAct Prompting (Reason + Act)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-Tool-calling-Function-calling.html">Tool &amp; Function Calling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10-Structured-generation.html">Structured Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="11-Multimodal-generation.html">Multimodal Generation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/overview.html">Retrieval &amp; Knowledge Concepts Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/01-Retrieval-Augmented-Generation.html">Retrieval-Augmented Generation (RAG)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/02-Embeddings.html">Embeddings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/03-11-Beam_Search.html">Beam Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/03-Semantic-search.html">Semantic Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/04-Hybrid-search.html">Hybrid Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/05-Chunking.html">Chunking and Chunk Overlap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/06-Re-ranking.html">Re-Ranking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/07-Indexing.html">Indexing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/08-Knowledge-grounding.html">Knowledge Grounding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/09-Citation-generation.html">Citation Generation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-Generation-Control-Safety/overview.html">Generation Control &amp; Safety Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/01-Hallucination.html">Hallucination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/02-Guardrails.html">Guardrails</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/03-Content-moderation.html">Content Moderation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/04-Safety-alignment.html">Safety Alignment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/05-Bias-mitigation.html">Bias Mitigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/06-Toxicity-filtering.html">Toxicity Filtering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/07-Red-teaming.html">Red Teaming in Generative AI (GenAI)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/08-Output-constraints.html">Output Constraints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/09-Prompt-injection.html">Prompt Injection</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../08-Model-Data-Operations/overview.html">Model &amp; Data Operations Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/01-Model-serving.html">Model Serving</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/02-Model-routing.html">Model Routing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/03-Model-fallback.html">Model Fallback</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/04-Distillation.html">Knowledge Distillation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/05-Quantization.html">Quantization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/06-Caching.html">Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/07-Token-optimization.html">Token Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/08-Cost-optimization.html">Cost Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/08-Model-Data-Operations.html">Model–Data Operations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../09-Architecture-Infrastructure/overview.html">Architecture &amp; Infrastructure Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/01-Inference-pipeline.html">Inference Pipeline in Generative AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/02-Orchestration-layer.html">Orchestration Layer in Generative AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/03-LLM-gateway.html">LLM Gateway</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/04-API-management.html">API Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/05-Microservices-architecture.html">Microservice Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/06-Distributed-systems.html">Distributed Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/07-Event-driven-pipelines.html">Event-Driven Pipelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/08-Horizontal-scaling.html">Horizontal Scaling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/09-Architecture-Infrastructure.html">Architecture &amp; Infrastructure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/09-Load-balancing.html">Load Balancing in Generative AI Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/10-Rate-limiting.html">Rate Limiting</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/overview.html">Data &amp; Knowledge Infrastructure Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/01-Data-ingestion.html">Data Ingestion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/02-ETL-for-GenAI.html">ETL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/03-Data-pipelines.html">Data Pipelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/04-Vector-databases.html">Vector Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/05-Metadata-stores.html">Metadata Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/06-Feature-stores.html">Feature Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/07-Document-stores.html">Document Stores</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../11-Performance-Reliability/overview.html">Performance &amp; Reliability Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/01-Latency-optimization.html">Latency Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/02-Throughput-optimization.html">Throughput Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/03-Streaming.html">Streaming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/04-Asynchronous-processing.html">Asynchronous Processing</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/05-Backpressure-control.html">Backpressure Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/06-Circuit-breakers.html">Circuit Breakers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/07-Retries-timeouts.html">Retries &amp; Timeout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/08-Graceful-degradation.html">Graceful Degradation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/11-Performance-Reliability.html">Performance Reliability</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../12-Security-Compliance/overview.html">Security &amp; Compliance Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../12-Security-Compliance/01-Data-privacy.html">Data Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../12-Security-Compliance/02-PII-detection-redaction.html">PII Detection &amp; Redaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../12-Security-Compliance/03-Encryption.html">Encryption</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../12-Security-Compliance/04-Access-control.html">Access Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../12-Security-Compliance/05-Authentication-authorization.html">Authentication &amp; Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../12-Security-Compliance/06-Audit-logging.html">Audit Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../12-Security-Compliance/07-Compliance-frameworks.html">Compliance Framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../12-Security-Compliance/08-Prompt-injection-defense.html">Prompt Injection Defense</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../12-Security-Compliance/12-Security-Compliance.html">Security &amp; Compliance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../13-Observability-Governance/overview.html">Observability &amp; Governance Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/01-Logging.html">Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/02-Monitoring.html">Monitoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/03-Tracing.html">Tracing in Generative AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/04-Quality-evaluation.html">Quality Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/05-Hallucination-tracking.html">Hallucination Tracking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/06-Feedback-loops.html">Feedback Loops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/07-AB-testing.html">A/B Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/08-Model-governance.html">Model Governance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/09-Policy-enforcement.html">Policy Enforcement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/13-Observability-Governance.html">Observability Governance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../14-Advanced-GenAI-Systems/overview.html">Advanced GenAI Systems Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/01-Agentic-systems.html">Agentic Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/02-Multi-agent-orchestration.html">Multi-Agent Orchestration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/03-Autonomous-workflows.html">Autonomous Workflows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/04-Tool-ecosystems.html">Tool Ecosystems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/05-Workflow-engines.html">Workflow Engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/06-Planning-reasoning-systems.html">Planning &amp; Reasoning Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/07-Self-reflection-loops.html">Self-Reflection Loops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/08-Multimodal-pipelines.html">Multi-Modal Pipeline</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../15-Product-Lifecycle-Management/overview.html">Product &amp; Lifecycle Management Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../15-Product-Lifecycle-Management/01-Prompt-lifecycle-management.html">Prompt Lifecycle Management (PLM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-Product-Lifecycle-Management/02-Model-lifecycle-management.html">Model Lifecycle Management (MLM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-Product-Lifecycle-Management/03-Continuous-learning.html">Continuous Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-Product-Lifecycle-Management/04-Human-in-the-loop-systems.html">Human-in-the-Loop (HITL) Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-Product-Lifecycle-Management/05-Release-management.html">Release Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-Product-Lifecycle-Management/06-Rollbacks.html">Rollbacks in Generative AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-Product-Lifecycle-Management/07-Experimentation-frameworks.html">Experimental Frameworks</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/svgoudar/Learn-ML-and-NLP/blob/master/Gen-AI/04-Core-LLM-Generation-Concepts/01-Tokenization.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/Learn-ML-and-NLP" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/Learn-ML-and-NLP/issues/new?title=Issue%20on%20page%20%2FGen-AI/04-Core-LLM-Generation-Concepts/01-Tokenization.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/Gen-AI/04-Core-LLM-Generation-Concepts/01-Tokenization.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Tokenization</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-tokenization-exists"><strong>1. Why Tokenization Exists</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#core-intuition"><strong>2. Core Intuition</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-token"><strong>3. What Is a Token?</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tokenization-pipeline"><strong>4. Tokenization Pipeline</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#major-tokenization-methods"><strong>5. Major Tokenization Methods</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#word-level-tokenization">5.1 Word-Level Tokenization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#character-level-tokenization">5.2 Character-Level Tokenization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#subword-tokenization-modern-standard">5.3 Subword Tokenization (Modern Standard)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#popular-subword-algorithms"><strong>6. Popular Subword Algorithms</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-bpe-tokenization"><strong>7. Example: BPE Tokenization</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-tokens-to-model-input"><strong>8. From Tokens to Model Input</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#special-tokens"><strong>9. Special Tokens</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tokenization-challenges"><strong>10. Tokenization Challenges</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-tokenization-quality-matters"><strong>11. Why Tokenization Quality Matters</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tokenization-in-modern-llms"><strong>12. Tokenization in Modern LLMs</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary"><strong>13. Summary</strong></a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <nav class="contents" id="contents" role="doc-toc">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#tokenization" id="id1"><strong>Tokenization</strong></a></p>
+<ul>
+<li><p><a class="reference internal" href="#why-tokenization-exists" id="id2"><strong>1. Why Tokenization Exists</strong></a></p></li>
+<li><p><a class="reference internal" href="#core-intuition" id="id3"><strong>2. Core Intuition</strong></a></p></li>
+<li><p><a class="reference internal" href="#what-is-a-token" id="id4"><strong>3. What Is a Token?</strong></a></p></li>
+<li><p><a class="reference internal" href="#tokenization-pipeline" id="id5"><strong>4. Tokenization Pipeline</strong></a></p></li>
+<li><p><a class="reference internal" href="#major-tokenization-methods" id="id6"><strong>5. Major Tokenization Methods</strong></a></p>
+<ul>
+<li><p><a class="reference internal" href="#word-level-tokenization" id="id7">5.1 Word-Level Tokenization</a></p></li>
+<li><p><a class="reference internal" href="#character-level-tokenization" id="id8">5.2 Character-Level Tokenization</a></p></li>
+<li><p><a class="reference internal" href="#subword-tokenization-modern-standard" id="id9">5.3 Subword Tokenization (Modern Standard)</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#popular-subword-algorithms" id="id10"><strong>6. Popular Subword Algorithms</strong></a></p></li>
+<li><p><a class="reference internal" href="#example-bpe-tokenization" id="id11"><strong>7. Example: BPE Tokenization</strong></a></p></li>
+<li><p><a class="reference internal" href="#from-tokens-to-model-input" id="id12"><strong>8. From Tokens to Model Input</strong></a></p></li>
+<li><p><a class="reference internal" href="#special-tokens" id="id13"><strong>9. Special Tokens</strong></a></p></li>
+<li><p><a class="reference internal" href="#tokenization-challenges" id="id14"><strong>10. Tokenization Challenges</strong></a></p></li>
+<li><p><a class="reference internal" href="#why-tokenization-quality-matters" id="id15"><strong>11. Why Tokenization Quality Matters</strong></a></p></li>
+<li><p><a class="reference internal" href="#tokenization-in-modern-llms" id="id16"><strong>12. Tokenization in Modern LLMs</strong></a></p></li>
+<li><p><a class="reference internal" href="#summary" id="id17"><strong>13. Summary</strong></a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section id="tokenization">
+<h1><a class="toc-backref" href="#id1" role="doc-backlink"><strong>Tokenization</strong></a><a class="headerlink" href="#tokenization" title="Permalink to this heading">#</a></h1>
+<p>Tokenization is the process of converting raw text into <strong>discrete units (tokens)</strong> that a machine learning model can process.
+It is the <strong>first step</strong> in almost every NLP and LLM pipeline.</p>
+<hr class="docutils" />
+<section id="why-tokenization-exists">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink"><strong>1. Why Tokenization Exists</strong></a><a class="headerlink" href="#why-tokenization-exists" title="Permalink to this heading">#</a></h2>
+<p>Neural networks operate on numbers, not text.
+Tokenization bridges human language and numerical computation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Text → Tokens → Token IDs → Embeddings → Model
+</pre></div>
+</div>
+<p>Without good tokenization, even the best model fails.</p>
+</section>
+<hr class="docutils" />
+<section id="core-intuition">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink"><strong>2. Core Intuition</strong></a><a class="headerlink" href="#core-intuition" title="Permalink to this heading">#</a></h2>
+<p>Tokenization breaks language into the <strong>smallest meaningful building blocks</strong> that balance:</p>
+<ul class="simple">
+<li><p>Expressiveness</p></li>
+<li><p>Vocabulary size</p></li>
+<li><p>Computational efficiency</p></li>
+</ul>
+<blockquote>
+<div><p>Too large → huge vocabulary
+Too small → long sequences, slow models</p>
+</div></blockquote>
+</section>
+<hr class="docutils" />
+<section id="what-is-a-token">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink"><strong>3. What Is a Token?</strong></a><a class="headerlink" href="#what-is-a-token" title="Permalink to this heading">#</a></h2>
+<p>A <strong>token</strong> can be:</p>
+<ul class="simple">
+<li><p>A word</p></li>
+<li><p>A subword</p></li>
+<li><p>A character</p></li>
+<li><p>A byte</p></li>
+<li><p>A combination</p></li>
+</ul>
+<p>Modern LLMs primarily use <strong>subword tokens</strong>.</p>
+</section>
+<hr class="docutils" />
+<section id="tokenization-pipeline">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink"><strong>4. Tokenization Pipeline</strong></a><a class="headerlink" href="#tokenization-pipeline" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Raw Text
+   ↓
+Normalization (lowercasing, unicode cleanup)
+   ↓
+Pre-tokenization (split by whitespace / punctuation)
+   ↓
+Subword segmentation
+   ↓
+Token IDs
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="major-tokenization-methods">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink"><strong>5. Major Tokenization Methods</strong></a><a class="headerlink" href="#major-tokenization-methods" title="Permalink to this heading">#</a></h2>
+<section id="word-level-tokenization">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">5.1 Word-Level Tokenization</a><a class="headerlink" href="#word-level-tokenization" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&quot;I love NLP&quot; → [&quot;I&quot;, &quot;love&quot;, &quot;NLP&quot;]
+</pre></div>
+</div>
+<p><strong>Problems:</strong></p>
+<ul class="simple">
+<li><p>Huge vocabulary</p></li>
+<li><p>Unknown words (OOV)</p></li>
+<li><p>Poor multilingual support</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="character-level-tokenization">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">5.2 Character-Level Tokenization</a><a class="headerlink" href="#character-level-tokenization" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&quot;cat&quot; → [&quot;c&quot;, &quot;a&quot;, &quot;t&quot;]
+</pre></div>
+</div>
+<p><strong>Pros:</strong> No OOV
+<strong>Cons:</strong> Long sequences, weak semantics</p>
+</section>
+<hr class="docutils" />
+<section id="subword-tokenization-modern-standard">
+<h3><a class="toc-backref" href="#id9" role="doc-backlink">5.3 Subword Tokenization (Modern Standard)</a><a class="headerlink" href="#subword-tokenization-modern-standard" title="Permalink to this heading">#</a></h3>
+<p>Splits text into <strong>frequent fragments</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&quot;unhappiness&quot; → [&quot;un&quot;, &quot;happi&quot;, &quot;ness&quot;]
+</pre></div>
+</div>
+<p>Balances vocabulary size and sequence length.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="popular-subword-algorithms">
+<h2><a class="toc-backref" href="#id10" role="doc-backlink"><strong>6. Popular Subword Algorithms</strong></a><a class="headerlink" href="#popular-subword-algorithms" title="Permalink to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Algorithm</p></th>
+<th class="head"><p>Used By</p></th>
+<th class="head"><p>Key Idea</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>BPE</p></td>
+<td><p>GPT, GPT-2</p></td>
+<td><p>Merge frequent symbol pairs</p></td>
+</tr>
+<tr class="row-odd"><td><p>WordPiece</p></td>
+<td><p>BERT</p></td>
+<td><p>Likelihood-based merges</p></td>
+</tr>
+<tr class="row-even"><td><p>Unigram</p></td>
+<td><p>SentencePiece</p></td>
+<td><p>Probabilistic token selection</p></td>
+</tr>
+<tr class="row-odd"><td><p>Byte-BPE</p></td>
+<td><p>GPT-2, LLaMA</p></td>
+<td><p>Byte-level + BPE</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="example-bpe-tokenization">
+<h2><a class="toc-backref" href="#id11" role="doc-backlink"><strong>7. Example: BPE Tokenization</strong></a><a class="headerlink" href="#example-bpe-tokenization" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Text: &quot;lower&quot;
+Initial: l o w e r
+Merge frequent pairs → lo w e r → low e r → lower
+</pre></div>
+</div>
+<p>Resulting tokens become part of the learned vocabulary.</p>
+</section>
+<hr class="docutils" />
+<section id="from-tokens-to-model-input">
+<h2><a class="toc-backref" href="#id12" role="doc-backlink"><strong>8. From Tokens to Model Input</strong></a><a class="headerlink" href="#from-tokens-to-model-input" title="Permalink to this heading">#</a></h2>
+<p>After tokenization:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Tokens → Token IDs → Embedding Vectors → Model
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&quot;Hello world&quot;
+→ [&quot;Hello&quot;, &quot;world&quot;]
+→ [15496, 995]
+→ [[0.12, -0.04, ...], [...]]
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="special-tokens">
+<h2><a class="toc-backref" href="#id13" role="doc-backlink"><strong>9. Special Tokens</strong></a><a class="headerlink" href="#special-tokens" title="Permalink to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Token</p></th>
+<th class="head"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">&lt;BOS&gt;</span></code></p></td>
+<td><p>Beginning of sequence</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">&lt;EOS&gt;</span></code></p></td>
+<td><p>End of sequence</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">&lt;PAD&gt;</span></code></p></td>
+<td><p>Padding</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">&lt;UNK&gt;</span></code></p></td>
+<td><p>Unknown</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">&lt;CLS&gt;</span></code></p></td>
+<td><p>Classification</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">&lt;SEP&gt;</span></code></p></td>
+<td><p>Separator</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="tokenization-challenges">
+<h2><a class="toc-backref" href="#id14" role="doc-backlink"><strong>10. Tokenization Challenges</strong></a><a class="headerlink" href="#tokenization-challenges" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Multilingual text</p></li>
+<li><p>Rare words</p></li>
+<li><p>Emojis &amp; symbols</p></li>
+<li><p>Domain-specific vocabulary</p></li>
+<li><p>Efficiency vs expressiveness</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="why-tokenization-quality-matters">
+<h2><a class="toc-backref" href="#id15" role="doc-backlink"><strong>11. Why Tokenization Quality Matters</strong></a><a class="headerlink" href="#why-tokenization-quality-matters" title="Permalink to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Impact</p></th>
+<th class="head"><p>Explanation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Model accuracy</p></td>
+<td><p>Poor tokens → poor understanding</p></td>
+</tr>
+<tr class="row-odd"><td><p>Training speed</p></td>
+<td><p>Sequence length controls cost</p></td>
+</tr>
+<tr class="row-even"><td><p>Generalization</p></td>
+<td><p>Good subwords handle new words</p></td>
+</tr>
+<tr class="row-odd"><td><p>Multilingual support</p></td>
+<td><p>Robust segmentation improves coverage</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="tokenization-in-modern-llms">
+<h2><a class="toc-backref" href="#id16" role="doc-backlink"><strong>12. Tokenization in Modern LLMs</strong></a><a class="headerlink" href="#tokenization-in-modern-llms" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>GPT, LLaMA: Byte-level BPE</p></li>
+<li><p>BERT: WordPiece</p></li>
+<li><p>T5: SentencePiece (Unigram)</p></li>
+<li><p>Whisper: Multilingual BPE</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="summary">
+<h2><a class="toc-backref" href="#id17" role="doc-backlink"><strong>13. Summary</strong></a><a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Aspect</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Purpose</p></td>
+<td><p>Convert text to model-ready units</p></td>
+</tr>
+<tr class="row-odd"><td><p>Modern approach</p></td>
+<td><p>Subword tokenization</p></td>
+</tr>
+<tr class="row-even"><td><p>Design goal</p></td>
+<td><p>Compact, expressive, efficient</p></td>
+</tr>
+<tr class="row-odd"><td><p>Criticality</p></td>
+<td><p>Foundational to LLM performance</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Gen-AI\04-Core-LLM-Generation-Concepts"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="overview.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Core LLM Generation Concepts</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="02-Context-window.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Context Window and Sliding Window</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-tokenization-exists"><strong>1. Why Tokenization Exists</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#core-intuition"><strong>2. Core Intuition</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-token"><strong>3. What Is a Token?</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tokenization-pipeline"><strong>4. Tokenization Pipeline</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#major-tokenization-methods"><strong>5. Major Tokenization Methods</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#word-level-tokenization">5.1 Word-Level Tokenization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#character-level-tokenization">5.2 Character-Level Tokenization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#subword-tokenization-modern-standard">5.3 Subword Tokenization (Modern Standard)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#popular-subword-algorithms"><strong>6. Popular Subword Algorithms</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-bpe-tokenization"><strong>7. Example: BPE Tokenization</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-tokens-to-model-input"><strong>8. From Tokens to Model Input</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#special-tokens"><strong>9. Special Tokens</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tokenization-challenges"><strong>10. Tokenization Challenges</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-tokenization-quality-matters"><strong>11. Why Tokenization Quality Matters</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tokenization-in-modern-llms"><strong>12. Tokenization in Modern LLMs</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary"><strong>13. Summary</strong></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By svgoudar
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

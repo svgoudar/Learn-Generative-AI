@@ -1,0 +1,1009 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Audit Logging &#8212; Machine Learning Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Gen-AI/12-Security-Compliance/06-Audit-logging';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Compliance Framework" href="07-Compliance-frameworks.html" />
+    <link rel="prev" title="Authentication &amp; Authorization" href="05-Authentication-authorization.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Machine Learning Handbook - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Machine Learning Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-Model-Families/overview.html">Model Families Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/01-Transformer.html">Transformer Architecture</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/02-Encoder-Decoder-Models.html">Encoder–Decoder Model (Seq2Seq Architecture)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/03-Decoder-Only-Models.html">Decoder-Only Models (Autoregressive Architecture)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/04-Mixture-of-Experts.html">Mixture of Experts (MoE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/05-Diffusion-Models.html">Diffusion Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/06-Variational-Autoencoders.html">Autoencoders and Variational Autoencoders (VAE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/07-GANs.html">Generative Adversarial Networks (GANs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/08-Autoregressive-Models.html">Autoregressive Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/09-State-Space-Models.html">State Space Models (SSM)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-Key-Architectural-Components/overview.html">Key Architectural Components Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/01-Self-Attention.html">Attention Mechanism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/02-Multi-Head-Attention.html">Multi-Head Attention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/03-Positional-Encoding.html">Positional Encodings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/04-Feedforward-Networks.html">Feedforward Neural Network (FNN)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/05-Layer-Normalization.html">Layer Normalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/06-Residual-Connections.html">Residual Connection (Skip Connection)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/07-Cross-Attention.html">Cross-Attention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/08-Sparse-Attention.html">Sparse Attention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/09-Rotary-Embeddings.html">Rotary Positional Embeddings (RoPE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/10-KV-Caching.html">KV Cache</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-Model-Training-Concepts/overview.html">Model Training Concepts Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/01-Pretraining.html">Pretraining</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/02-Self-supervised-learning.html">Self-Supervised Learning (SSL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/03-Instruction-tuning.html">Instruction Tuning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/04-Supervised-fine-tuning.html">Supervised Fine-Tuning (SFT)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/05-RLHF.html">Reinforcement Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/06-Preference-modeling.html">Preference Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/07-Curriculum-learning.html">Curriculum Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/08-Continual-learning.html">Continual Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/09-Model-alignment.html">Model Alignment</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/overview.html">Core LLM Generation Concepts</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/01-Tokenization.html"><strong>Tokenization</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/02-Context-window.html">Context Window and Sliding Window</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/03-Inference.html">Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/04-Sampling.html">Sampling Stratergies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/05-Prompting.html">Prompting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/06-Zero-shot-Few-shot-learning.html">Zero-Shot and Few-Shot Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/07-Chain-of-Thought.html"><strong>Chain-of-Thought (CoT) Prompting</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/08-ReAct-prompting.html">ReAct Prompting (Reason + Act)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/09-Tool-calling-Function-calling.html">Tool &amp; Function Calling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/10-Structured-generation.html">Structured Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/11-Multimodal-generation.html">Multimodal Generation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/overview.html">Retrieval &amp; Knowledge Concepts Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/01-Retrieval-Augmented-Generation.html">Retrieval-Augmented Generation (RAG)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/02-Embeddings.html">Embeddings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/03-11-Beam_Search.html">Beam Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/03-Semantic-search.html">Semantic Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/04-Hybrid-search.html">Hybrid Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/05-Chunking.html">Chunking and Chunk Overlap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/06-Re-ranking.html">Re-Ranking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/07-Indexing.html">Indexing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/08-Knowledge-grounding.html">Knowledge Grounding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/09-Citation-generation.html">Citation Generation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-Generation-Control-Safety/overview.html">Generation Control &amp; Safety Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/01-Hallucination.html">Hallucination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/02-Guardrails.html">Guardrails</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/03-Content-moderation.html">Content Moderation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/04-Safety-alignment.html">Safety Alignment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/05-Bias-mitigation.html">Bias Mitigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/06-Toxicity-filtering.html">Toxicity Filtering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/07-Red-teaming.html">Red Teaming in Generative AI (GenAI)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/08-Output-constraints.html">Output Constraints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/09-Prompt-injection.html">Prompt Injection</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../08-Model-Data-Operations/overview.html">Model &amp; Data Operations Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/01-Model-serving.html">Model Serving</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/02-Model-routing.html">Model Routing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/03-Model-fallback.html">Model Fallback</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/04-Distillation.html">Knowledge Distillation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/05-Quantization.html">Quantization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/06-Caching.html">Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/07-Token-optimization.html">Token Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/08-Cost-optimization.html">Cost Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/08-Model-Data-Operations.html">Model–Data Operations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../09-Architecture-Infrastructure/overview.html">Architecture &amp; Infrastructure Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/01-Inference-pipeline.html">Inference Pipeline in Generative AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/02-Orchestration-layer.html">Orchestration Layer in Generative AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/03-LLM-gateway.html">LLM Gateway</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/04-API-management.html">API Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/05-Microservices-architecture.html">Microservice Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/06-Distributed-systems.html">Distributed Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/07-Event-driven-pipelines.html">Event-Driven Pipelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/08-Horizontal-scaling.html">Horizontal Scaling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/09-Architecture-Infrastructure.html">Architecture &amp; Infrastructure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/09-Load-balancing.html">Load Balancing in Generative AI Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/10-Rate-limiting.html">Rate Limiting</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/overview.html">Data &amp; Knowledge Infrastructure Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/01-Data-ingestion.html">Data Ingestion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/02-ETL-for-GenAI.html">ETL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/03-Data-pipelines.html">Data Pipelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/04-Vector-databases.html">Vector Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/05-Metadata-stores.html">Metadata Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/06-Feature-stores.html">Feature Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/07-Document-stores.html">Document Stores</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../11-Performance-Reliability/overview.html">Performance &amp; Reliability Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/01-Latency-optimization.html">Latency Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/02-Throughput-optimization.html">Throughput Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/03-Streaming.html">Streaming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/04-Asynchronous-processing.html">Asynchronous Processing</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/05-Backpressure-control.html">Backpressure Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/06-Circuit-breakers.html">Circuit Breakers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/07-Retries-timeouts.html">Retries &amp; Timeout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/08-Graceful-degradation.html">Graceful Degradation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/11-Performance-Reliability.html">Performance Reliability</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="overview.html">Security &amp; Compliance Overview</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01-Data-privacy.html">Data Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-PII-detection-redaction.html">PII Detection &amp; Redaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03-Encryption.html">Encryption</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04-Access-control.html">Access Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-Authentication-authorization.html">Authentication &amp; Authorization</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Audit Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07-Compliance-frameworks.html">Compliance Framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-Prompt-injection-defense.html">Prompt Injection Defense</a></li>
+<li class="toctree-l2"><a class="reference internal" href="12-Security-Compliance.html">Security &amp; Compliance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../13-Observability-Governance/overview.html">Observability &amp; Governance Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/01-Logging.html">Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/02-Monitoring.html">Monitoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/03-Tracing.html">Tracing in Generative AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/04-Quality-evaluation.html">Quality Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/05-Hallucination-tracking.html">Hallucination Tracking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/06-Feedback-loops.html">Feedback Loops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/07-AB-testing.html">A/B Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/08-Model-governance.html">Model Governance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/09-Policy-enforcement.html">Policy Enforcement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/13-Observability-Governance.html">Observability Governance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../14-Advanced-GenAI-Systems/overview.html">Advanced GenAI Systems Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/01-Agentic-systems.html">Agentic Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/02-Multi-agent-orchestration.html">Multi-Agent Orchestration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/03-Autonomous-workflows.html">Autonomous Workflows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/04-Tool-ecosystems.html">Tool Ecosystems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/05-Workflow-engines.html">Workflow Engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/06-Planning-reasoning-systems.html">Planning &amp; Reasoning Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/07-Self-reflection-loops.html">Self-Reflection Loops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/08-Multimodal-pipelines.html">Multi-Modal Pipeline</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../15-Product-Lifecycle-Management/overview.html">Product &amp; Lifecycle Management Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../15-Product-Lifecycle-Management/01-Prompt-lifecycle-management.html">Prompt Lifecycle Management (PLM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-Product-Lifecycle-Management/02-Model-lifecycle-management.html">Model Lifecycle Management (MLM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-Product-Lifecycle-Management/03-Continuous-learning.html">Continuous Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-Product-Lifecycle-Management/04-Human-in-the-loop-systems.html">Human-in-the-Loop (HITL) Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-Product-Lifecycle-Management/05-Release-management.html">Release Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-Product-Lifecycle-Management/06-Rollbacks.html">Rollbacks in Generative AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-Product-Lifecycle-Management/07-Experimentation-frameworks.html">Experimental Frameworks</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/svgoudar/Learn-ML-and-NLP/blob/master/Gen-AI/12-Security-Compliance/06-Audit-logging.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/Learn-ML-and-NLP" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/Learn-ML-and-NLP/issues/new?title=Issue%20on%20page%20%2FGen-AI/12-Security-Compliance/06-Audit-logging.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/Gen-AI/12-Security-Compliance/06-Audit-logging.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Audit Logging</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#definition">1. Definition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-audit-logging-is-critical-in-generative-ai">2. Why Audit Logging is Critical in Generative AI</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-should-be-logged">3. What Should Be Logged</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#core-event-categories">3.1 Core Event Categories</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#audit-logging-architecture">4. Audit Logging Architecture</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logging-workflow-in-a-genai-system">5. Logging Workflow in a GenAI System</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-example-python">6. Practical Example (Python)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-audit-logs-in-genai">7. Types of Audit Logs in GenAI</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integration-with-enterprise-systems">8. Integration with Enterprise Systems</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design-best-practices">9. Design Best Practices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#risks-without-proper-audit-logging">10. Risks Without Proper Audit Logging</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">11. Summary</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <nav class="contents" id="contents" role="doc-toc">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#audit-logging" id="id1">Audit Logging</a></p>
+<ul>
+<li><p><a class="reference internal" href="#definition" id="id2">1. Definition</a></p></li>
+<li><p><a class="reference internal" href="#why-audit-logging-is-critical-in-generative-ai" id="id3">2. Why Audit Logging is Critical in Generative AI</a></p></li>
+<li><p><a class="reference internal" href="#what-should-be-logged" id="id4">3. What Should Be Logged</a></p>
+<ul>
+<li><p><a class="reference internal" href="#core-event-categories" id="id5">3.1 Core Event Categories</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#audit-logging-architecture" id="id6">4. Audit Logging Architecture</a></p></li>
+<li><p><a class="reference internal" href="#logging-workflow-in-a-genai-system" id="id7">5. Logging Workflow in a GenAI System</a></p></li>
+<li><p><a class="reference internal" href="#practical-example-python" id="id8">6. Practical Example (Python)</a></p></li>
+<li><p><a class="reference internal" href="#types-of-audit-logs-in-genai" id="id9">7. Types of Audit Logs in GenAI</a></p></li>
+<li><p><a class="reference internal" href="#integration-with-enterprise-systems" id="id10">8. Integration with Enterprise Systems</a></p></li>
+<li><p><a class="reference internal" href="#design-best-practices" id="id11">9. Design Best Practices</a></p></li>
+<li><p><a class="reference internal" href="#risks-without-proper-audit-logging" id="id12">10. Risks Without Proper Audit Logging</a></p></li>
+<li><p><a class="reference internal" href="#summary" id="id13">11. Summary</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section id="audit-logging">
+<h1><a class="toc-backref" href="#id1" role="doc-backlink">Audit Logging</a><a class="headerlink" href="#audit-logging" title="Permalink to this heading">#</a></h1>
+<section id="definition">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">1. Definition</a><a class="headerlink" href="#definition" title="Permalink to this heading">#</a></h2>
+<p><strong>Audit Logging</strong> is the systematic recording of all significant events, actions, and decisions made during the operation of a Generative AI system, enabling <strong>traceability, accountability, compliance, debugging, and security monitoring</strong>.</p>
+<p>In Generative AI, audit logs capture:</p>
+<blockquote>
+<div><p><em>Who did what, when, with which model, using which data, and with what result.</em></p>
+</div></blockquote>
+</section>
+<hr class="docutils" />
+<section id="why-audit-logging-is-critical-in-generative-ai">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">2. Why Audit Logging is Critical in Generative AI</a><a class="headerlink" href="#why-audit-logging-is-critical-in-generative-ai" title="Permalink to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Requirement</p></th>
+<th class="head"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Regulatory compliance</strong></p></td>
+<td><p>Meet requirements of GDPR, HIPAA, SOC2, ISO 27001, EU AI Act</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Model governance</strong></p></td>
+<td><p>Track model versions, prompts, outputs</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Risk management</strong></p></td>
+<td><p>Investigate harmful, biased, or unsafe outputs</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Security &amp; forensics</strong></p></td>
+<td><p>Detect misuse, data leaks, prompt injection</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Reproducibility</strong></p></td>
+<td><p>Reconstruct model behavior</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Trust &amp; transparency</strong></p></td>
+<td><p>Demonstrate responsible AI practices</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="what-should-be-logged">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">3. What Should Be Logged</a><a class="headerlink" href="#what-should-be-logged" title="Permalink to this heading">#</a></h2>
+<section id="core-event-categories">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">3.1 Core Event Categories</a><a class="headerlink" href="#core-event-categories" title="Permalink to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Category</p></th>
+<th class="head"><p>Example Fields</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>User &amp; Identity</strong></p></td>
+<td><p>user_id, role, IP, API key</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Model Metadata</strong></p></td>
+<td><p>model_name, version, parameters, temperature</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Prompt Data</strong></p></td>
+<td><p>input_prompt, system_prompt, context</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Inference Results</strong></p></td>
+<td><p>output_text, tokens, confidence</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Timing &amp; Performance</strong></p></td>
+<td><p>latency, tokens_used, cost</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Security Signals</strong></p></td>
+<td><p>content_flags, jailbreak_detected</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Data Access</strong></p></td>
+<td><p>documents_retrieved, vector_ids</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>System Actions</strong></p></td>
+<td><p>fine-tuning events, model switches</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="audit-logging-architecture">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">4. Audit Logging Architecture</a><a class="headerlink" href="#audit-logging-architecture" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>User / App
+   │
+   ▼
+GenAI Service
+   │
+   ├── Prompt Processor
+   ├── Model Inference Engine
+   ├── Safety Filters
+   │
+   ▼
+Audit Logger  ──► Secure Log Store ──► SIEM / Analytics / Compliance Tools
+</pre></div>
+</div>
+<p>Properties:</p>
+<ul class="simple">
+<li><p><strong>Append-only</strong></p></li>
+<li><p><strong>Tamper-resistant</strong></p></li>
+<li><p><strong>Time-synchronized</strong></p></li>
+<li><p><strong>Access-controlled</strong></p></li>
+<li><p><strong>Encrypted at rest and in transit</strong></p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="logging-workflow-in-a-genai-system">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">5. Logging Workflow in a GenAI System</a><a class="headerlink" href="#logging-workflow-in-a-genai-system" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Request received</strong></p></li>
+<li><p><strong>Identity &amp; authorization logged</strong></p></li>
+<li><p><strong>Prompt captured</strong></p></li>
+<li><p><strong>Model + parameters recorded</strong></p></li>
+<li><p><strong>Safety checks logged</strong></p></li>
+<li><p><strong>Response generated</strong></p></li>
+<li><p><strong>Output + metrics stored</strong></p></li>
+<li><p><strong>Alerts raised if violations detected</strong></p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="practical-example-python">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">6. Practical Example (Python)</a><a class="headerlink" href="#practical-example-python" title="Permalink to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span><span class="o">,</span><span class="w"> </span><span class="nn">time</span><span class="o">,</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">log_event</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;audit.log&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">event</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_response</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">prompt</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4&quot;</span><span class="p">):</span>
+    <span class="n">event_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;AI response to: </span><span class="si">{</span><span class="n">prompt</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="n">event</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;event_id&quot;</span><span class="p">:</span> <span class="n">event_id</span><span class="p">,</span>
+        <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+        <span class="s2">&quot;user_id&quot;</span><span class="p">:</span> <span class="n">user_id</span><span class="p">,</span>
+        <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">model</span><span class="p">,</span>
+        <span class="s2">&quot;prompt&quot;</span><span class="p">:</span> <span class="n">prompt</span><span class="p">,</span>
+        <span class="s2">&quot;response&quot;</span><span class="p">:</span> <span class="n">response</span><span class="p">,</span>
+        <span class="s2">&quot;latency_ms&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">((</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">),</span>
+        <span class="s2">&quot;tokens_used&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">prompt</span><span class="o">.</span><span class="n">split</span><span class="p">())</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">split</span><span class="p">()),</span>
+        <span class="s2">&quot;safety_flags&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="p">}</span>
+
+    <span class="n">log_event</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">response</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="types-of-audit-logs-in-genai">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">7. Types of Audit Logs in GenAI</a><a class="headerlink" href="#types-of-audit-logs-in-genai" title="Permalink to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Log Type</p></th>
+<th class="head"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Inference Logs</strong></p></td>
+<td><p>Every model request &amp; output</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Data Lineage Logs</strong></p></td>
+<td><p>What data influenced which output</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Security Logs</strong></p></td>
+<td><p>Abuse, anomalies, policy violations</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Governance Logs</strong></p></td>
+<td><p>Model updates, approvals, rollbacks</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Compliance Logs</strong></p></td>
+<td><p>Consent, data deletion, retention events</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Monitoring Logs</strong></p></td>
+<td><p>Drift, performance, hallucination rates</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="integration-with-enterprise-systems">
+<h2><a class="toc-backref" href="#id10" role="doc-backlink">8. Integration with Enterprise Systems</a><a class="headerlink" href="#integration-with-enterprise-systems" title="Permalink to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>System</p></th>
+<th class="head"><p>Role</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>SIEM</strong></p></td>
+<td><p>Threat detection</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Data Catalog</strong></p></td>
+<td><p>Data governance</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Model Registry</strong></p></td>
+<td><p>Version traceability</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>MLOps Platform</strong></p></td>
+<td><p>Deployment tracking</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Compliance Engine</strong></p></td>
+<td><p>Regulatory reporting</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="design-best-practices">
+<h2><a class="toc-backref" href="#id11" role="doc-backlink">9. Design Best Practices</a><a class="headerlink" href="#design-best-practices" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Immutable storage (e.g., WORM, blockchain-style hash chaining)</p></li>
+<li><p>Role-based access control</p></li>
+<li><p>Field-level encryption for PII</p></li>
+<li><p>Automated anomaly detection on logs</p></li>
+<li><p>Retention policies aligned with regulations</p></li>
+<li><p>Human-readable + machine-queryable formats</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="risks-without-proper-audit-logging">
+<h2><a class="toc-backref" href="#id12" role="doc-backlink">10. Risks Without Proper Audit Logging</a><a class="headerlink" href="#risks-without-proper-audit-logging" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>No accountability for harmful outputs</p></li>
+<li><p>Impossible regulatory compliance</p></li>
+<li><p>Inability to investigate security incidents</p></li>
+<li><p>Unreproducible model behavior</p></li>
+<li><p>Loss of stakeholder trust</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="summary">
+<h2><a class="toc-backref" href="#id13" role="doc-backlink">11. Summary</a><a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h2>
+<blockquote>
+<div><p><strong>Audit Logging is the backbone of trust, safety, and governance in Generative AI systems.</strong>
+It transforms opaque model behavior into <strong>verifiable, controllable, and compliant</strong> operations.</p>
+</div></blockquote>
+<p>If you’d like, I can next explain <strong>Model Lineage</strong>, <strong>Data Provenance</strong>, or <strong>AI Governance Frameworks</strong> in the same format.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Gen-AI\12-Security-Compliance"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="05-Authentication-authorization.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Authentication &amp; Authorization</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="07-Compliance-frameworks.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Compliance Framework</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#definition">1. Definition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-audit-logging-is-critical-in-generative-ai">2. Why Audit Logging is Critical in Generative AI</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-should-be-logged">3. What Should Be Logged</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#core-event-categories">3.1 Core Event Categories</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#audit-logging-architecture">4. Audit Logging Architecture</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logging-workflow-in-a-genai-system">5. Logging Workflow in a GenAI System</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-example-python">6. Practical Example (Python)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-audit-logs-in-genai">7. Types of Audit Logs in GenAI</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integration-with-enterprise-systems">8. Integration with Enterprise Systems</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design-best-practices">9. Design Best Practices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#risks-without-proper-audit-logging">10. Risks Without Proper Audit Logging</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">11. Summary</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By svgoudar
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

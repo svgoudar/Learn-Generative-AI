@@ -1,0 +1,1043 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Human-in-the-Loop (HITL) Systems &#8212; Machine Learning Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Gen-AI/15-Product-Lifecycle-Management/04-Human-in-the-loop-systems';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Release Management" href="05-Release-management.html" />
+    <link rel="prev" title="Continuous Learning" href="03-Continuous-learning.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Machine Learning Handbook - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Machine Learning Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-Model-Families/overview.html">Model Families Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/01-Transformer.html">Transformer Architecture</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/02-Encoder-Decoder-Models.html">Encoder–Decoder Model (Seq2Seq Architecture)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/03-Decoder-Only-Models.html">Decoder-Only Models (Autoregressive Architecture)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/04-Mixture-of-Experts.html">Mixture of Experts (MoE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/05-Diffusion-Models.html">Diffusion Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/06-Variational-Autoencoders.html">Autoencoders and Variational Autoencoders (VAE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/07-GANs.html">Generative Adversarial Networks (GANs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/08-Autoregressive-Models.html">Autoregressive Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/09-State-Space-Models.html">State Space Models (SSM)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-Key-Architectural-Components/overview.html">Key Architectural Components Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/01-Self-Attention.html">Attention Mechanism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/02-Multi-Head-Attention.html">Multi-Head Attention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/03-Positional-Encoding.html">Positional Encodings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/04-Feedforward-Networks.html">Feedforward Neural Network (FNN)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/05-Layer-Normalization.html">Layer Normalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/06-Residual-Connections.html">Residual Connection (Skip Connection)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/07-Cross-Attention.html">Cross-Attention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/08-Sparse-Attention.html">Sparse Attention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/09-Rotary-Embeddings.html">Rotary Positional Embeddings (RoPE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/10-KV-Caching.html">KV Cache</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-Model-Training-Concepts/overview.html">Model Training Concepts Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/01-Pretraining.html">Pretraining</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/02-Self-supervised-learning.html">Self-Supervised Learning (SSL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/03-Instruction-tuning.html">Instruction Tuning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/04-Supervised-fine-tuning.html">Supervised Fine-Tuning (SFT)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/05-RLHF.html">Reinforcement Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/06-Preference-modeling.html">Preference Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/07-Curriculum-learning.html">Curriculum Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/08-Continual-learning.html">Continual Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/09-Model-alignment.html">Model Alignment</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/overview.html">Core LLM Generation Concepts</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/01-Tokenization.html"><strong>Tokenization</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/02-Context-window.html">Context Window and Sliding Window</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/03-Inference.html">Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/04-Sampling.html">Sampling Stratergies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/05-Prompting.html">Prompting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/06-Zero-shot-Few-shot-learning.html">Zero-Shot and Few-Shot Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/07-Chain-of-Thought.html"><strong>Chain-of-Thought (CoT) Prompting</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/08-ReAct-prompting.html">ReAct Prompting (Reason + Act)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/09-Tool-calling-Function-calling.html">Tool &amp; Function Calling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/10-Structured-generation.html">Structured Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/11-Multimodal-generation.html">Multimodal Generation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/overview.html">Retrieval &amp; Knowledge Concepts Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/01-Retrieval-Augmented-Generation.html">Retrieval-Augmented Generation (RAG)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/02-Embeddings.html">Embeddings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/03-11-Beam_Search.html">Beam Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/03-Semantic-search.html">Semantic Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/04-Hybrid-search.html">Hybrid Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/05-Chunking.html">Chunking and Chunk Overlap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/06-Re-ranking.html">Re-Ranking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/07-Indexing.html">Indexing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/08-Knowledge-grounding.html">Knowledge Grounding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/09-Citation-generation.html">Citation Generation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-Generation-Control-Safety/overview.html">Generation Control &amp; Safety Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/01-Hallucination.html">Hallucination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/02-Guardrails.html">Guardrails</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/03-Content-moderation.html">Content Moderation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/04-Safety-alignment.html">Safety Alignment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/05-Bias-mitigation.html">Bias Mitigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/06-Toxicity-filtering.html">Toxicity Filtering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/07-Red-teaming.html">Red Teaming in Generative AI (GenAI)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/08-Output-constraints.html">Output Constraints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/09-Prompt-injection.html">Prompt Injection</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../08-Model-Data-Operations/overview.html">Model &amp; Data Operations Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/01-Model-serving.html">Model Serving</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/02-Model-routing.html">Model Routing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/03-Model-fallback.html">Model Fallback</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/04-Distillation.html">Knowledge Distillation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/05-Quantization.html">Quantization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/06-Caching.html">Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/07-Token-optimization.html">Token Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/08-Cost-optimization.html">Cost Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/08-Model-Data-Operations.html">Model–Data Operations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../09-Architecture-Infrastructure/overview.html">Architecture &amp; Infrastructure Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/01-Inference-pipeline.html">Inference Pipeline in Generative AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/02-Orchestration-layer.html">Orchestration Layer in Generative AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/03-LLM-gateway.html">LLM Gateway</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/04-API-management.html">API Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/05-Microservices-architecture.html">Microservice Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/06-Distributed-systems.html">Distributed Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/07-Event-driven-pipelines.html">Event-Driven Pipelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/08-Horizontal-scaling.html">Horizontal Scaling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/09-Architecture-Infrastructure.html">Architecture &amp; Infrastructure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/09-Load-balancing.html">Load Balancing in Generative AI Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/10-Rate-limiting.html">Rate Limiting</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/overview.html">Data &amp; Knowledge Infrastructure Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/01-Data-ingestion.html">Data Ingestion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/02-ETL-for-GenAI.html">ETL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/03-Data-pipelines.html">Data Pipelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/04-Vector-databases.html">Vector Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/05-Metadata-stores.html">Metadata Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/06-Feature-stores.html">Feature Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/07-Document-stores.html">Document Stores</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../11-Performance-Reliability/overview.html">Performance &amp; Reliability Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/01-Latency-optimization.html">Latency Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/02-Throughput-optimization.html">Throughput Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/03-Streaming.html">Streaming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/04-Asynchronous-processing.html">Asynchronous Processing</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/05-Backpressure-control.html">Backpressure Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/06-Circuit-breakers.html">Circuit Breakers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/07-Retries-timeouts.html">Retries &amp; Timeout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/08-Graceful-degradation.html">Graceful Degradation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/11-Performance-Reliability.html">Performance Reliability</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../12-Security-Compliance/overview.html">Security &amp; Compliance Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../12-Security-Compliance/01-Data-privacy.html">Data Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../12-Security-Compliance/02-PII-detection-redaction.html">PII Detection &amp; Redaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../12-Security-Compliance/03-Encryption.html">Encryption</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../12-Security-Compliance/04-Access-control.html">Access Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../12-Security-Compliance/05-Authentication-authorization.html">Authentication &amp; Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../12-Security-Compliance/06-Audit-logging.html">Audit Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../12-Security-Compliance/07-Compliance-frameworks.html">Compliance Framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../12-Security-Compliance/08-Prompt-injection-defense.html">Prompt Injection Defense</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../12-Security-Compliance/12-Security-Compliance.html">Security &amp; Compliance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../13-Observability-Governance/overview.html">Observability &amp; Governance Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/01-Logging.html">Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/02-Monitoring.html">Monitoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/03-Tracing.html">Tracing in Generative AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/04-Quality-evaluation.html">Quality Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/05-Hallucination-tracking.html">Hallucination Tracking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/06-Feedback-loops.html">Feedback Loops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/07-AB-testing.html">A/B Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/08-Model-governance.html">Model Governance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/09-Policy-enforcement.html">Policy Enforcement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/13-Observability-Governance.html">Observability Governance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../14-Advanced-GenAI-Systems/overview.html">Advanced GenAI Systems Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/01-Agentic-systems.html">Agentic Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/02-Multi-agent-orchestration.html">Multi-Agent Orchestration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/03-Autonomous-workflows.html">Autonomous Workflows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/04-Tool-ecosystems.html">Tool Ecosystems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/05-Workflow-engines.html">Workflow Engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/06-Planning-reasoning-systems.html">Planning &amp; Reasoning Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/07-Self-reflection-loops.html">Self-Reflection Loops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/08-Multimodal-pipelines.html">Multi-Modal Pipeline</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="overview.html">Product &amp; Lifecycle Management Overview</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01-Prompt-lifecycle-management.html">Prompt Lifecycle Management (PLM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-Model-lifecycle-management.html">Model Lifecycle Management (MLM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03-Continuous-learning.html">Continuous Learning</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Human-in-the-Loop (HITL) Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-Release-management.html">Release Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06-Rollbacks.html">Rollbacks in Generative AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07-Experimentation-frameworks.html">Experimental Frameworks</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/svgoudar/Learn-ML-and-NLP/blob/master/Gen-AI/15-Product-Lifecycle-Management/04-Human-in-the-loop-systems.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/Learn-ML-and-NLP" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/Learn-ML-and-NLP/issues/new?title=Issue%20on%20page%20%2FGen-AI/15-Product-Lifecycle-Management/04-Human-in-the-loop-systems.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/Gen-AI/15-Product-Lifecycle-Management/04-Human-in-the-loop-systems.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Human-in-the-Loop (HITL) Systems</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#definition">1. Definition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-hitl-is-essential-for-generative-ai">2. Why HITL is Essential for Generative AI</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#core-hitl-workflows-in-generative-ai">3. Core HITL Workflows in Generative AI</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-stages">Key Stages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-hitl-in-generative-ai">4. Types of HITL in Generative AI</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hitl-techniques-in-practice">5. HITL Techniques in Practice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reinforcement-learning-from-human-feedback-rlhf">5.1 Reinforcement Learning from Human Feedback (RLHF)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#human-review-at-inference">5.2 Human Review at Inference</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#active-learning-with-hitl">5.3 Active Learning with HITL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#system-architecture-with-hitl">6. System Architecture with HITL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quantitative-impact-of-hitl">7. Quantitative Impact of HITL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#domains-where-hitl-is-mandatory">8. Domains Where HITL is Mandatory</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations-of-hitl">9. Limitations of HITL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design-principles-for-effective-hitl">10. Design Principles for Effective HITL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">11. Summary</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <nav class="contents" id="contents" role="doc-toc">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#human-in-the-loop-hitl-systems" id="id1">Human-in-the-Loop (HITL) Systems</a></p>
+<ul>
+<li><p><a class="reference internal" href="#definition" id="id2">1. Definition</a></p></li>
+<li><p><a class="reference internal" href="#why-hitl-is-essential-for-generative-ai" id="id3">2. Why HITL is Essential for Generative AI</a></p></li>
+<li><p><a class="reference internal" href="#core-hitl-workflows-in-generative-ai" id="id4">3. Core HITL Workflows in Generative AI</a></p></li>
+<li><p><a class="reference internal" href="#key-stages" id="id5">Key Stages</a></p></li>
+<li><p><a class="reference internal" href="#types-of-hitl-in-generative-ai" id="id6">4. Types of HITL in Generative AI</a></p></li>
+<li><p><a class="reference internal" href="#hitl-techniques-in-practice" id="id7">5. HITL Techniques in Practice</a></p></li>
+<li><p><a class="reference internal" href="#reinforcement-learning-from-human-feedback-rlhf" id="id8">5.1 Reinforcement Learning from Human Feedback (RLHF)</a></p></li>
+<li><p><a class="reference internal" href="#human-review-at-inference" id="id9">5.2 Human Review at Inference</a></p></li>
+<li><p><a class="reference internal" href="#active-learning-with-hitl" id="id10">5.3 Active Learning with HITL</a></p></li>
+<li><p><a class="reference internal" href="#system-architecture-with-hitl" id="id11">6. System Architecture with HITL</a></p></li>
+<li><p><a class="reference internal" href="#quantitative-impact-of-hitl" id="id12">7. Quantitative Impact of HITL</a></p></li>
+<li><p><a class="reference internal" href="#domains-where-hitl-is-mandatory" id="id13">8. Domains Where HITL is Mandatory</a></p></li>
+<li><p><a class="reference internal" href="#limitations-of-hitl" id="id14">9. Limitations of HITL</a></p></li>
+<li><p><a class="reference internal" href="#design-principles-for-effective-hitl" id="id15">10. Design Principles for Effective HITL</a></p></li>
+<li><p><a class="reference internal" href="#summary" id="id16">11. Summary</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section id="human-in-the-loop-hitl-systems">
+<h1><a class="toc-backref" href="#id1" role="doc-backlink">Human-in-the-Loop (HITL) Systems</a><a class="headerlink" href="#human-in-the-loop-hitl-systems" title="Permalink to this heading">#</a></h1>
+<hr class="docutils" />
+<section id="definition">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">1. Definition</a><a class="headerlink" href="#definition" title="Permalink to this heading">#</a></h2>
+<p><strong>Human-in-the-Loop (HITL)</strong> is a system design paradigm where <strong>human judgment is deliberately integrated</strong> into the training, evaluation, and deployment cycle of AI models.</p>
+<p>In <strong>Generative AI</strong>, HITL ensures that model behavior aligns with:</p>
+<ul class="simple">
+<li><p>human intent,</p></li>
+<li><p>safety constraints,</p></li>
+<li><p>quality standards, and</p></li>
+<li><p>real-world values.</p></li>
+</ul>
+<p>Formally:</p>
+<blockquote>
+<div><p><strong>HITL = Automated Intelligence + Human Oversight + Continuous Feedback</strong></p>
+</div></blockquote>
+</section>
+<hr class="docutils" />
+<section id="why-hitl-is-essential-for-generative-ai">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">2. Why HITL is Essential for Generative AI</a><a class="headerlink" href="#why-hitl-is-essential-for-generative-ai" title="Permalink to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Challenge in GenAI</p></th>
+<th class="head"><p>How HITL Solves It</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Hallucinations</p></td>
+<td><p>Humans verify factual accuracy</p></td>
+</tr>
+<tr class="row-odd"><td><p>Bias &amp; toxicity</p></td>
+<td><p>Humans enforce ethical constraints</p></td>
+</tr>
+<tr class="row-even"><td><p>Ambiguous prompts</p></td>
+<td><p>Humans clarify intent</p></td>
+</tr>
+<tr class="row-odd"><td><p>Domain expertise</p></td>
+<td><p>Humans inject expert knowledge</p></td>
+</tr>
+<tr class="row-even"><td><p>Evaluation difficulty</p></td>
+<td><p>Humans provide qualitative judgments</p></td>
+</tr>
+<tr class="row-odd"><td><p>Model drift</p></td>
+<td><p>Humans monitor &amp; correct degradation</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Without HITL, purely automated systems <strong>fail silently</strong> in complex real-world tasks.</p>
+</section>
+<hr class="docutils" />
+<section id="core-hitl-workflows-in-generative-ai">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">3. Core HITL Workflows in Generative AI</a><a class="headerlink" href="#core-hitl-workflows-in-generative-ai" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Data → Model → Generation → Human Review → Feedback → Model Update
+                  ↑                               ↓
+               Deployment  ←  Continuous Improvement Loop
+</pre></div>
+</div>
+</section>
+<section id="key-stages">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Key Stages</a><a class="headerlink" href="#key-stages" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Data Curation</strong></p></li>
+<li><p><strong>Training Supervision</strong></p></li>
+<li><p><strong>Model Alignment</strong></p></li>
+<li><p><strong>Production Monitoring</strong></p></li>
+<li><p><strong>Iterative Improvement</strong></p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="types-of-hitl-in-generative-ai">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">4. Types of HITL in Generative AI</a><a class="headerlink" href="#types-of-hitl-in-generative-ai" title="Permalink to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Type</p></th>
+<th class="head"><p>Human Role</p></th>
+<th class="head"><p>Example</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Pre-training HITL</p></td>
+<td><p>Labeling, filtering</p></td>
+<td><p>Remove toxic content</p></td>
+</tr>
+<tr class="row-odd"><td><p>Training HITL</p></td>
+<td><p>Preference ranking</p></td>
+<td><p>RLHF</p></td>
+</tr>
+<tr class="row-even"><td><p>Inference HITL</p></td>
+<td><p>Approval, editing</p></td>
+<td><p>Content moderation</p></td>
+</tr>
+<tr class="row-odd"><td><p>Post-deployment HITL</p></td>
+<td><p>Monitoring, auditing</p></td>
+<td><p>Safety review boards</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="hitl-techniques-in-practice">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">5. HITL Techniques in Practice</a><a class="headerlink" href="#hitl-techniques-in-practice" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="reinforcement-learning-from-human-feedback-rlhf">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">5.1 Reinforcement Learning from Human Feedback (RLHF)</a><a class="headerlink" href="#reinforcement-learning-from-human-feedback-rlhf" title="Permalink to this heading">#</a></h2>
+<p><strong>Pipeline</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Prompt → Model Outputs → Human Rankings → Reward Model → Policy Optimization
+</pre></div>
+</div>
+<p><strong>Goal:</strong> Align model behavior with human preferences.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simplified conceptual example</span>
+
+<span class="c1"># Human feedback</span>
+<span class="n">human_rankings</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">&quot;answer_A&quot;</span><span class="p">,</span> <span class="s2">&quot;answer_B&quot;</span><span class="p">,</span> <span class="s2">&quot;A_better&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;answer_C&quot;</span><span class="p">,</span> <span class="s2">&quot;answer_D&quot;</span><span class="p">,</span> <span class="s2">&quot;D_better&quot;</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="c1"># Train reward model from rankings</span>
+<span class="n">reward_model</span> <span class="o">=</span> <span class="n">train_reward_model</span><span class="p">(</span><span class="n">human_rankings</span><span class="p">)</span>
+
+<span class="c1"># Optimize generator using PPO</span>
+<span class="n">policy</span> <span class="o">=</span> <span class="n">optimize_with_PPO</span><span class="p">(</span><span class="n">generator</span><span class="p">,</span> <span class="n">reward_model</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="human-review-at-inference">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">5.2 Human Review at Inference</a><a class="headerlink" href="#human-review-at-inference" title="Permalink to this heading">#</a></h2>
+<p>Used in:</p>
+<ul class="simple">
+<li><p>legal text generation,</p></li>
+<li><p>medical reporting,</p></li>
+<li><p>financial documents,</p></li>
+<li><p>safety-critical content.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">human_approves</span><span class="p">(</span><span class="n">output</span><span class="p">):</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">human_edits</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="active-learning-with-hitl">
+<h2><a class="toc-backref" href="#id10" role="doc-backlink">5.3 Active Learning with HITL</a><a class="headerlink" href="#active-learning-with-hitl" title="Permalink to this heading">#</a></h2>
+<p>Humans label only <strong>most informative samples</strong>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">unlabeled_pool</span><span class="p">:</span>
+    <span class="n">uncertainty</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">uncertainty</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">uncertainty</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">:</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">human_label</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+        <span class="n">training_set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="system-architecture-with-hitl">
+<h2><a class="toc-backref" href="#id11" role="doc-backlink">6. System Architecture with HITL</a><a class="headerlink" href="#system-architecture-with-hitl" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>User → Prompt → GenAI Model → Draft Output → Human Gate
+                                   ↓
+                             Logging &amp; Feedback
+                                   ↓
+                              Model Refinement
+</pre></div>
+</div>
+<p><strong>Human Gate</strong> acts as a <strong>safety &amp; quality firewall</strong>.</p>
+</section>
+<hr class="docutils" />
+<section id="quantitative-impact-of-hitl">
+<h2><a class="toc-backref" href="#id12" role="doc-backlink">7. Quantitative Impact of HITL</a><a class="headerlink" href="#quantitative-impact-of-hitl" title="Permalink to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Metric</p></th>
+<th class="head"><p>Without HITL</p></th>
+<th class="head"><p>With HITL</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Hallucination rate</p></td>
+<td><p>High</p></td>
+<td><p>Low</p></td>
+</tr>
+<tr class="row-odd"><td><p>Safety violations</p></td>
+<td><p>Frequent</p></td>
+<td><p>Rare</p></td>
+</tr>
+<tr class="row-even"><td><p>User trust</p></td>
+<td><p>Low</p></td>
+<td><p>High</p></td>
+</tr>
+<tr class="row-odd"><td><p>Model stability</p></td>
+<td><p>Unstable</p></td>
+<td><p>Robust</p></td>
+</tr>
+<tr class="row-even"><td><p>Regulatory compliance</p></td>
+<td><p>Weak</p></td>
+<td><p>Strong</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="domains-where-hitl-is-mandatory">
+<h2><a class="toc-backref" href="#id13" role="doc-backlink">8. Domains Where HITL is Mandatory</a><a class="headerlink" href="#domains-where-hitl-is-mandatory" title="Permalink to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Domain</p></th>
+<th class="head"><p>Reason</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Healthcare</p></td>
+<td><p>Patient safety</p></td>
+</tr>
+<tr class="row-odd"><td><p>Finance</p></td>
+<td><p>Regulatory compliance</p></td>
+</tr>
+<tr class="row-even"><td><p>Law</p></td>
+<td><p>Liability</p></td>
+</tr>
+<tr class="row-odd"><td><p>Education</p></td>
+<td><p>Pedagogical correctness</p></td>
+</tr>
+<tr class="row-even"><td><p>Scientific research</p></td>
+<td><p>Factual precision</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="limitations-of-hitl">
+<h2><a class="toc-backref" href="#id14" role="doc-backlink">9. Limitations of HITL</a><a class="headerlink" href="#limitations-of-hitl" title="Permalink to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Limitation</p></th>
+<th class="head"><p>Explanation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Cost</p></td>
+<td><p>Human labor expensive</p></td>
+</tr>
+<tr class="row-odd"><td><p>Latency</p></td>
+<td><p>Human review slows response</p></td>
+</tr>
+<tr class="row-even"><td><p>Scalability</p></td>
+<td><p>Hard at massive scale</p></td>
+</tr>
+<tr class="row-odd"><td><p>Human bias</p></td>
+<td><p>Introduced via feedback</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Hence modern systems combine <strong>HITL + automation</strong> intelligently.</p>
+</section>
+<hr class="docutils" />
+<section id="design-principles-for-effective-hitl">
+<h2><a class="toc-backref" href="#id15" role="doc-backlink">10. Design Principles for Effective HITL</a><a class="headerlink" href="#design-principles-for-effective-hitl" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Human where uncertainty is high</strong></p></li>
+<li><p><strong>Automate where confidence is high</strong></p></li>
+<li><p><strong>Continuous feedback loops</strong></p></li>
+<li><p><strong>Traceability of decisions</strong></p></li>
+<li><p><strong>Clear escalation paths</strong></p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="summary">
+<h2><a class="toc-backref" href="#id16" role="doc-backlink">11. Summary</a><a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h2>
+<p><strong>Human-in-the-Loop systems are the control mechanism that makes Generative AI usable, safe, and aligned with real-world requirements.</strong></p>
+<p>They transform generative models from:</p>
+<blockquote>
+<div><p><em>statistical text generators</em> → <strong>reliable decision-support systems</strong>.</p>
+</div></blockquote>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Gen-AI\15-Product-Lifecycle-Management"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="03-Continuous-learning.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Continuous Learning</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="05-Release-management.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Release Management</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#definition">1. Definition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-hitl-is-essential-for-generative-ai">2. Why HITL is Essential for Generative AI</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#core-hitl-workflows-in-generative-ai">3. Core HITL Workflows in Generative AI</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-stages">Key Stages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-hitl-in-generative-ai">4. Types of HITL in Generative AI</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hitl-techniques-in-practice">5. HITL Techniques in Practice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reinforcement-learning-from-human-feedback-rlhf">5.1 Reinforcement Learning from Human Feedback (RLHF)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#human-review-at-inference">5.2 Human Review at Inference</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#active-learning-with-hitl">5.3 Active Learning with HITL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#system-architecture-with-hitl">6. System Architecture with HITL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quantitative-impact-of-hitl">7. Quantitative Impact of HITL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#domains-where-hitl-is-mandatory">8. Domains Where HITL is Mandatory</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations-of-hitl">9. Limitations of HITL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design-principles-for-effective-hitl">10. Design Principles for Effective HITL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">11. Summary</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By svgoudar
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

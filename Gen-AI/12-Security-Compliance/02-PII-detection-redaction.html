@@ -1,0 +1,1078 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>PII Detection &amp; Redaction &#8212; Machine Learning Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Gen-AI/12-Security-Compliance/02-PII-detection-redaction';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Encryption" href="03-Encryption.html" />
+    <link rel="prev" title="Data Privacy" href="01-Data-privacy.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Machine Learning Handbook - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Machine Learning Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-Model-Families/overview.html">Model Families Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/01-Transformer.html">Transformer Architecture</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/02-Encoder-Decoder-Models.html">Encoder–Decoder Model (Seq2Seq Architecture)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/03-Decoder-Only-Models.html">Decoder-Only Models (Autoregressive Architecture)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/04-Mixture-of-Experts.html">Mixture of Experts (MoE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/05-Diffusion-Models.html">Diffusion Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/06-Variational-Autoencoders.html">Autoencoders and Variational Autoencoders (VAE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/07-GANs.html">Generative Adversarial Networks (GANs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/08-Autoregressive-Models.html">Autoregressive Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/09-State-Space-Models.html">State Space Models (SSM)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-Key-Architectural-Components/overview.html">Key Architectural Components Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/01-Self-Attention.html">Attention Mechanism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/02-Multi-Head-Attention.html">Multi-Head Attention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/03-Positional-Encoding.html">Positional Encodings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/04-Feedforward-Networks.html">Feedforward Neural Network (FNN)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/05-Layer-Normalization.html">Layer Normalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/06-Residual-Connections.html">Residual Connection (Skip Connection)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/07-Cross-Attention.html">Cross-Attention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/08-Sparse-Attention.html">Sparse Attention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/09-Rotary-Embeddings.html">Rotary Positional Embeddings (RoPE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-Key-Architectural-Components/10-KV-Caching.html">KV Cache</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-Model-Training-Concepts/overview.html">Model Training Concepts Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/01-Pretraining.html">Pretraining</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/02-Self-supervised-learning.html">Self-Supervised Learning (SSL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/03-Instruction-tuning.html">Instruction Tuning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/04-Supervised-fine-tuning.html">Supervised Fine-Tuning (SFT)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/05-RLHF.html">Reinforcement Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/06-Preference-modeling.html">Preference Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/07-Curriculum-learning.html">Curriculum Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/08-Continual-learning.html">Continual Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/09-Model-alignment.html">Model Alignment</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/overview.html">Core LLM Generation Concepts</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/01-Tokenization.html"><strong>Tokenization</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/02-Context-window.html">Context Window and Sliding Window</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/03-Inference.html">Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/04-Sampling.html">Sampling Stratergies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/05-Prompting.html">Prompting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/06-Zero-shot-Few-shot-learning.html">Zero-Shot and Few-Shot Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/07-Chain-of-Thought.html"><strong>Chain-of-Thought (CoT) Prompting</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/08-ReAct-prompting.html">ReAct Prompting (Reason + Act)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/09-Tool-calling-Function-calling.html">Tool &amp; Function Calling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/10-Structured-generation.html">Structured Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/11-Multimodal-generation.html">Multimodal Generation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/overview.html">Retrieval &amp; Knowledge Concepts Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/01-Retrieval-Augmented-Generation.html">Retrieval-Augmented Generation (RAG)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/02-Embeddings.html">Embeddings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/03-11-Beam_Search.html">Beam Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/03-Semantic-search.html">Semantic Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/04-Hybrid-search.html">Hybrid Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/05-Chunking.html">Chunking and Chunk Overlap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/06-Re-ranking.html">Re-Ranking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/07-Indexing.html">Indexing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/08-Knowledge-grounding.html">Knowledge Grounding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/09-Citation-generation.html">Citation Generation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-Generation-Control-Safety/overview.html">Generation Control &amp; Safety Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/01-Hallucination.html">Hallucination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/02-Guardrails.html">Guardrails</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/03-Content-moderation.html">Content Moderation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/04-Safety-alignment.html">Safety Alignment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/05-Bias-mitigation.html">Bias Mitigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/06-Toxicity-filtering.html">Toxicity Filtering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/07-Red-teaming.html">Red Teaming in Generative AI (GenAI)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/08-Output-constraints.html">Output Constraints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/09-Prompt-injection.html">Prompt Injection</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../08-Model-Data-Operations/overview.html">Model &amp; Data Operations Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/01-Model-serving.html">Model Serving</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/02-Model-routing.html">Model Routing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/03-Model-fallback.html">Model Fallback</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/04-Distillation.html">Knowledge Distillation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/05-Quantization.html">Quantization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/06-Caching.html">Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/07-Token-optimization.html">Token Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/08-Cost-optimization.html">Cost Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/08-Model-Data-Operations.html">Model–Data Operations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../09-Architecture-Infrastructure/overview.html">Architecture &amp; Infrastructure Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/01-Inference-pipeline.html">Inference Pipeline in Generative AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/02-Orchestration-layer.html">Orchestration Layer in Generative AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/03-LLM-gateway.html">LLM Gateway</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/04-API-management.html">API Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/05-Microservices-architecture.html">Microservice Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/06-Distributed-systems.html">Distributed Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/07-Event-driven-pipelines.html">Event-Driven Pipelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/08-Horizontal-scaling.html">Horizontal Scaling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/09-Architecture-Infrastructure.html">Architecture &amp; Infrastructure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/09-Load-balancing.html">Load Balancing in Generative AI Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/10-Rate-limiting.html">Rate Limiting</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/overview.html">Data &amp; Knowledge Infrastructure Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/01-Data-ingestion.html">Data Ingestion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/02-ETL-for-GenAI.html">ETL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/03-Data-pipelines.html">Data Pipelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/04-Vector-databases.html">Vector Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/05-Metadata-stores.html">Metadata Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/06-Feature-stores.html">Feature Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/07-Document-stores.html">Document Stores</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../11-Performance-Reliability/overview.html">Performance &amp; Reliability Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/01-Latency-optimization.html">Latency Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/02-Throughput-optimization.html">Throughput Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/03-Streaming.html">Streaming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/04-Asynchronous-processing.html">Asynchronous Processing</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/05-Backpressure-control.html">Backpressure Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/06-Circuit-breakers.html">Circuit Breakers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/07-Retries-timeouts.html">Retries &amp; Timeout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/08-Graceful-degradation.html">Graceful Degradation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/11-Performance-Reliability.html">Performance Reliability</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="overview.html">Security &amp; Compliance Overview</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01-Data-privacy.html">Data Privacy</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">PII Detection &amp; Redaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03-Encryption.html">Encryption</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04-Access-control.html">Access Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-Authentication-authorization.html">Authentication &amp; Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06-Audit-logging.html">Audit Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07-Compliance-frameworks.html">Compliance Framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-Prompt-injection-defense.html">Prompt Injection Defense</a></li>
+<li class="toctree-l2"><a class="reference internal" href="12-Security-Compliance.html">Security &amp; Compliance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../13-Observability-Governance/overview.html">Observability &amp; Governance Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/01-Logging.html">Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/02-Monitoring.html">Monitoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/03-Tracing.html">Tracing in Generative AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/04-Quality-evaluation.html">Quality Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/05-Hallucination-tracking.html">Hallucination Tracking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/06-Feedback-loops.html">Feedback Loops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/07-AB-testing.html">A/B Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/08-Model-governance.html">Model Governance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/09-Policy-enforcement.html">Policy Enforcement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/13-Observability-Governance.html">Observability Governance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../14-Advanced-GenAI-Systems/overview.html">Advanced GenAI Systems Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/01-Agentic-systems.html">Agentic Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/02-Multi-agent-orchestration.html">Multi-Agent Orchestration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/03-Autonomous-workflows.html">Autonomous Workflows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/04-Tool-ecosystems.html">Tool Ecosystems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/05-Workflow-engines.html">Workflow Engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/06-Planning-reasoning-systems.html">Planning &amp; Reasoning Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/07-Self-reflection-loops.html">Self-Reflection Loops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/08-Multimodal-pipelines.html">Multi-Modal Pipeline</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../15-Product-Lifecycle-Management/overview.html">Product &amp; Lifecycle Management Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../15-Product-Lifecycle-Management/01-Prompt-lifecycle-management.html">Prompt Lifecycle Management (PLM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-Product-Lifecycle-Management/02-Model-lifecycle-management.html">Model Lifecycle Management (MLM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-Product-Lifecycle-Management/03-Continuous-learning.html">Continuous Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-Product-Lifecycle-Management/04-Human-in-the-loop-systems.html">Human-in-the-Loop (HITL) Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-Product-Lifecycle-Management/05-Release-management.html">Release Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-Product-Lifecycle-Management/06-Rollbacks.html">Rollbacks in Generative AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-Product-Lifecycle-Management/07-Experimentation-frameworks.html">Experimental Frameworks</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/svgoudar/Learn-ML-and-NLP/blob/master/Gen-AI/12-Security-Compliance/02-PII-detection-redaction.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/Learn-ML-and-NLP" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/Learn-ML-and-NLP/issues/new?title=Issue%20on%20page%20%2FGen-AI/12-Security-Compliance/02-PII-detection-redaction.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/Gen-AI/12-Security-Compliance/02-PII-detection-redaction.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>PII Detection & Redaction</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motivation-problem-setting">1. Motivation &amp; Problem Setting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#high-level-pipeline">2. High-Level Pipeline</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pii-types-redaction-strategies">3. PII Types &amp; Redaction Strategies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#detection-approaches">4. Detection Approaches</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rule-based">4.1 Rule-Based</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#machine-learning-ner">4.2 Machine Learning (NER)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hybrid-industry-standard">4.3 Hybrid (Industry Standard)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#redaction-engine-design">5. Redaction Engine Design</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-generation-vs-post-generation">6. Pre-Generation vs Post-Generation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#privacy-risk-model-memorization">7. Privacy Risk: Model Memorization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-metrics">8. Evaluation Metrics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regulatory-alignment">9. Regulatory Alignment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference-architecture">10. Reference Architecture</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">11. Key Takeaways</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <nav class="contents" id="contents" role="doc-toc">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#pii-detection-redaction" id="id1">PII Detection &amp; Redaction</a></p>
+<ul>
+<li><p><a class="reference internal" href="#motivation-problem-setting" id="id2">1. Motivation &amp; Problem Setting</a></p></li>
+<li><p><a class="reference internal" href="#high-level-pipeline" id="id3">2. High-Level Pipeline</a></p></li>
+<li><p><a class="reference internal" href="#pii-types-redaction-strategies" id="id4">3. PII Types &amp; Redaction Strategies</a></p></li>
+<li><p><a class="reference internal" href="#detection-approaches" id="id5">4. Detection Approaches</a></p>
+<ul>
+<li><p><a class="reference internal" href="#rule-based" id="id6">4.1 Rule-Based</a></p></li>
+<li><p><a class="reference internal" href="#machine-learning-ner" id="id7">4.2 Machine Learning (NER)</a></p></li>
+<li><p><a class="reference internal" href="#hybrid-industry-standard" id="id8">4.3 Hybrid (Industry Standard)</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#redaction-engine-design" id="id9">5. Redaction Engine Design</a></p></li>
+<li><p><a class="reference internal" href="#pre-generation-vs-post-generation" id="id10">6. Pre-Generation vs Post-Generation</a></p></li>
+<li><p><a class="reference internal" href="#privacy-risk-model-memorization" id="id11">7. Privacy Risk: Model Memorization</a></p></li>
+<li><p><a class="reference internal" href="#evaluation-metrics" id="id12">8. Evaluation Metrics</a></p></li>
+<li><p><a class="reference internal" href="#regulatory-alignment" id="id13">9. Regulatory Alignment</a></p></li>
+<li><p><a class="reference internal" href="#reference-architecture" id="id14">10. Reference Architecture</a></p></li>
+<li><p><a class="reference internal" href="#key-takeaways" id="id15">11. Key Takeaways</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section id="pii-detection-redaction">
+<h1><a class="toc-backref" href="#id1" role="doc-backlink">PII Detection &amp; Redaction</a><a class="headerlink" href="#pii-detection-redaction" title="Permalink to this heading">#</a></h1>
+<hr class="docutils" />
+<section id="motivation-problem-setting">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">1. Motivation &amp; Problem Setting</a><a class="headerlink" href="#motivation-problem-setting" title="Permalink to this heading">#</a></h2>
+<p><strong>Personally Identifiable Information (PII)</strong> includes any data that can identify an individual:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Category</p></th>
+<th class="head"><p>Examples</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Direct identifiers</p></td>
+<td><p>Name, phone, email, SSN, Aadhaar</p></td>
+</tr>
+<tr class="row-odd"><td><p>Quasi-identifiers</p></td>
+<td><p>DOB, ZIP, IP address</p></td>
+</tr>
+<tr class="row-even"><td><p>Sensitive attributes</p></td>
+<td><p>Medical record, financial info</p></td>
+</tr>
+<tr class="row-odd"><td><p>Biometric</p></td>
+<td><p>Face, fingerprint</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Generative AI risks:</strong></p>
+<ul class="simple">
+<li><p>Leakage of sensitive user data</p></li>
+<li><p>Regulatory violations (GDPR, HIPAA, DPDP Act, CCPA)</p></li>
+<li><p>Model memorization &amp; prompt injection attacks</p></li>
+</ul>
+<p><strong>Goal:</strong>
+Detect PII → classify → transform or remove → allow safe generation.</p>
+</section>
+<hr class="docutils" />
+<section id="high-level-pipeline">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">2. High-Level Pipeline</a><a class="headerlink" href="#high-level-pipeline" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>User Input → PII Detection → Classification → Redaction / Masking → Model Inference → Post-Generation Scan → Output
+</pre></div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Stage</p></th>
+<th class="head"><p>Function</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Pre-processing</p></td>
+<td><p>Prevent unsafe content entering model</p></td>
+</tr>
+<tr class="row-odd"><td><p>Inference</p></td>
+<td><p>Model generates safe content</p></td>
+</tr>
+<tr class="row-even"><td><p>Post-processing</p></td>
+<td><p>Catch residual leakage</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="pii-types-redaction-strategies">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">3. PII Types &amp; Redaction Strategies</a><a class="headerlink" href="#pii-types-redaction-strategies" title="Permalink to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>PII Type</p></th>
+<th class="head"><p>Detection Method</p></th>
+<th class="head"><p>Redaction Strategy</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Email</p></td>
+<td><p>Regex + ML</p></td>
+<td><p>Mask local part</p></td>
+</tr>
+<tr class="row-odd"><td><p>Phone</p></td>
+<td><p>Regex</p></td>
+<td><p>Replace digits</p></td>
+</tr>
+<tr class="row-even"><td><p>Name</p></td>
+<td><p>NER</p></td>
+<td><p>Token replacement</p></td>
+</tr>
+<tr class="row-odd"><td><p>SSN/Aadhaar</p></td>
+<td><p>Regex + checksum</p></td>
+<td><p>Remove entirely</p></td>
+</tr>
+<tr class="row-even"><td><p>Medical data</p></td>
+<td><p>Contextual ML</p></td>
+<td><p>Generalize</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Redaction forms</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Method</p></th>
+<th class="head"><p>Example</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Masking</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">john&#64;gmail.com</span> <span class="pre">→</span> <span class="pre">j***&#64;gmail.com</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Tokenization</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">John</span> <span class="pre">→</span> <span class="pre">[NAME_1]</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Removal</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[SSN</span> <span class="pre">removed]</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Generalization</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Age</span> <span class="pre">43</span> <span class="pre">→</span> <span class="pre">Age</span> <span class="pre">40–45</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Pseudonymization</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Alice</span> <span class="pre">→</span> <span class="pre">Person</span> <span class="pre">A</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="detection-approaches">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">4. Detection Approaches</a><a class="headerlink" href="#detection-approaches" title="Permalink to this heading">#</a></h2>
+<section id="rule-based">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">4.1 Rule-Based</a><a class="headerlink" href="#rule-based" title="Permalink to this heading">#</a></h3>
+<p>Fast, deterministic.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+
+<span class="n">email_pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;\b[\w.-]+@[\w.-]+\.\w{2,4}\b&#39;</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Contact me at john@gmail.com&quot;</span>
+<span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">email_pattern</span><span class="p">,</span> <span class="s2">&quot;[EMAIL]&quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Pros:</strong> Fast, transparent
+<strong>Cons:</strong> Poor recall, brittle</p>
+</section>
+<hr class="docutils" />
+<section id="machine-learning-ner">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">4.2 Machine Learning (NER)</a><a class="headerlink" href="#machine-learning-ner" title="Permalink to this heading">#</a></h3>
+<p>Uses transformer models for context-aware detection.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">pipeline</span>
+
+<span class="n">ner</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s2">&quot;ner&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;dslim/bert-base-NER&quot;</span><span class="p">)</span>
+<span class="n">ner</span><span class="p">(</span><span class="s2">&quot;Alice lives in New York and her phone is 9876543210&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Detects:</p>
+<ul class="simple">
+<li><p>PERSON</p></li>
+<li><p>LOCATION</p></li>
+<li><p>ORGANIZATION</p></li>
+<li><p>MISC</p></li>
+</ul>
+<p><strong>Pros:</strong> Contextual, high recall
+<strong>Cons:</strong> Compute cost</p>
+</section>
+<hr class="docutils" />
+<section id="hybrid-industry-standard">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">4.3 Hybrid (Industry Standard)</a><a class="headerlink" href="#hybrid-industry-standard" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Regex → NER → Custom Classifiers → Validation
+</pre></div>
+</div>
+<p>Combines precision + recall.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="redaction-engine-design">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">5. Redaction Engine Design</a><a class="headerlink" href="#redaction-engine-design" title="Permalink to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">redact</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">entities</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">:</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="s2">&quot;word&quot;</span><span class="p">],</span> <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">e</span><span class="p">[</span><span class="s1">&#39;entity&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">text</span>
+</pre></div>
+</div>
+<p><strong>Example</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Input</span><span class="p">:</span>  <span class="n">Alice</span> <span class="n">lives</span> <span class="ow">in</span> <span class="n">Delhi</span><span class="o">.</span> <span class="n">Email</span><span class="p">:</span> <span class="n">alice</span><span class="nd">@abc</span><span class="o">.</span><span class="n">com</span>
+<span class="n">Output</span><span class="p">:</span> <span class="p">[</span><span class="n">PERSON</span><span class="p">]</span> <span class="n">lives</span> <span class="ow">in</span> <span class="p">[</span><span class="n">LOCATION</span><span class="p">]</span><span class="o">.</span> <span class="n">Email</span><span class="p">:</span> <span class="p">[</span><span class="n">EMAIL</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="pre-generation-vs-post-generation">
+<h2><a class="toc-backref" href="#id10" role="doc-backlink">6. Pre-Generation vs Post-Generation</a><a class="headerlink" href="#pre-generation-vs-post-generation" title="Permalink to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Layer</p></th>
+<th class="head"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Pre-Generation</p></td>
+<td><p>Prevent sensitive prompts</p></td>
+</tr>
+<tr class="row-odd"><td><p>In-Generation</p></td>
+<td><p>Constrain decoding</p></td>
+</tr>
+<tr class="row-even"><td><p>Post-Generation</p></td>
+<td><p>Catch accidental leakage</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Production systems use all three.</strong></p>
+</section>
+<hr class="docutils" />
+<section id="privacy-risk-model-memorization">
+<h2><a class="toc-backref" href="#id11" role="doc-backlink">7. Privacy Risk: Model Memorization</a><a class="headerlink" href="#privacy-risk-model-memorization" title="Permalink to this heading">#</a></h2>
+<p>Large models may memorize training data:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Prompt</span><span class="p">:</span> <span class="s2">&quot;What is John Smith&#39;s SSN?&quot;</span>
+<span class="n">Model</span><span class="p">:</span> <span class="o">***</span> <span class="p">(</span><span class="n">blocked</span> <span class="n">by</span> <span class="n">PII</span> <span class="nb">filter</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Mitigation:</p>
+<ul class="simple">
+<li><p>Training data filtering</p></li>
+<li><p>Differential privacy</p></li>
+<li><p>Output scanning</p></li>
+<li><p>Prompt safety classifiers</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="evaluation-metrics">
+<h2><a class="toc-backref" href="#id12" role="doc-backlink">8. Evaluation Metrics</a><a class="headerlink" href="#evaluation-metrics" title="Permalink to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Metric</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Precision</p></td>
+<td><p>Avoid false positives</p></td>
+</tr>
+<tr class="row-odd"><td><p>Recall</p></td>
+<td><p>Catch all PII</p></td>
+</tr>
+<tr class="row-even"><td><p>F1-score</p></td>
+<td><p>Balance</p></td>
+</tr>
+<tr class="row-odd"><td><p>Latency</p></td>
+<td><p>Production readiness</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="regulatory-alignment">
+<h2><a class="toc-backref" href="#id13" role="doc-backlink">9. Regulatory Alignment</a><a class="headerlink" href="#regulatory-alignment" title="Permalink to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Regulation</p></th>
+<th class="head"><p>Requirement</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>GDPR</p></td>
+<td><p>Right to erasure, data minimization</p></td>
+</tr>
+<tr class="row-odd"><td><p>HIPAA</p></td>
+<td><p>Health data protection</p></td>
+</tr>
+<tr class="row-even"><td><p>DPDP (India)</p></td>
+<td><p>Consent &amp; processing limits</p></td>
+</tr>
+<tr class="row-odd"><td><p>CCPA</p></td>
+<td><p>Disclosure &amp; deletion rights</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="reference-architecture">
+<h2><a class="toc-backref" href="#id14" role="doc-backlink">10. Reference Architecture</a><a class="headerlink" href="#reference-architecture" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Client
+  ↓
+API Gateway
+  ↓
+PII Detection Service
+  ↓
+Redaction Engine
+  ↓
+LLM Inference
+  ↓
+Post-PII Scanner
+  ↓
+Safe Response
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="key-takeaways">
+<h2><a class="toc-backref" href="#id15" role="doc-backlink">11. Key Takeaways</a><a class="headerlink" href="#key-takeaways" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>PII protection is <strong>not optional</strong> in GenAI systems.</p></li>
+<li><p>Effective systems combine:</p>
+<ul>
+<li><p>Rules</p></li>
+<li><p>ML models</p></li>
+<li><p>Multi-stage filtering</p></li>
+</ul>
+</li>
+<li><p>Redaction must preserve utility while guaranteeing privacy.</p></li>
+<li><p>Compliance, trust, and safety depend on correct implementation.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Gen-AI\12-Security-Compliance"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="01-Data-privacy.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Data Privacy</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="03-Encryption.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Encryption</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motivation-problem-setting">1. Motivation &amp; Problem Setting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#high-level-pipeline">2. High-Level Pipeline</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pii-types-redaction-strategies">3. PII Types &amp; Redaction Strategies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#detection-approaches">4. Detection Approaches</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rule-based">4.1 Rule-Based</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#machine-learning-ner">4.2 Machine Learning (NER)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hybrid-industry-standard">4.3 Hybrid (Industry Standard)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#redaction-engine-design">5. Redaction Engine Design</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-generation-vs-post-generation">6. Pre-Generation vs Post-Generation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#privacy-risk-model-memorization">7. Privacy Risk: Model Memorization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-metrics">8. Evaluation Metrics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regulatory-alignment">9. Regulatory Alignment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference-architecture">10. Reference Architecture</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">11. Key Takeaways</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By svgoudar
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1163 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Attention Mechanism &#8212; Machine Learning Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"tex": {"macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Gen-AI/02-Key-Architectural-Components/01-Self-Attention';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Multi-Head Attention" href="02-Multi-Head-Attention.html" />
+    <link rel="prev" title="Key Architectural Components Overview" href="overview.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Machine Learning Handbook - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Machine Learning Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../01-Model-Families/overview.html">Model Families Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/01-Transformer.html">Transformer Architecture</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/02-Encoder-Decoder-Models.html">Encoder–Decoder Model (Seq2Seq Architecture)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/03-Decoder-Only-Models.html">Decoder-Only Models (Autoregressive Architecture)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/04-Mixture-of-Experts.html">Mixture of Experts (MoE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/05-Diffusion-Models.html">Diffusion Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/06-Variational-Autoencoders.html">Autoencoders and Variational Autoencoders (VAE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/07-GANs.html">Generative Adversarial Networks (GANs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/08-Autoregressive-Models.html">Autoregressive Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-Model-Families/09-State-Space-Models.html">State Space Models (SSM)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="overview.html">Key Architectural Components Overview</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Attention Mechanism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-Multi-Head-Attention.html">Multi-Head Attention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03-Positional-Encoding.html">Positional Encodings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04-Feedforward-Networks.html">Feedforward Neural Network (FNN)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-Layer-Normalization.html">Layer Normalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06-Residual-Connections.html">Residual Connection (Skip Connection)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07-Cross-Attention.html">Cross-Attention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-Sparse-Attention.html">Sparse Attention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-Rotary-Embeddings.html">Rotary Positional Embeddings (RoPE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10-KV-Caching.html">KV Cache</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-Model-Training-Concepts/overview.html">Model Training Concepts Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/01-Pretraining.html">Pretraining</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/02-Self-supervised-learning.html">Self-Supervised Learning (SSL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/03-Instruction-tuning.html">Instruction Tuning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/04-Supervised-fine-tuning.html">Supervised Fine-Tuning (SFT)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/05-RLHF.html">Reinforcement Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/06-Preference-modeling.html">Preference Modeling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/07-Curriculum-learning.html">Curriculum Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/08-Continual-learning.html">Continual Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-Model-Training-Concepts/09-Model-alignment.html">Model Alignment</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/overview.html">Core LLM Generation Concepts</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/01-Tokenization.html"><strong>Tokenization</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/02-Context-window.html">Context Window and Sliding Window</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/03-Inference.html">Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/04-Sampling.html">Sampling Stratergies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/05-Prompting.html">Prompting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/06-Zero-shot-Few-shot-learning.html">Zero-Shot and Few-Shot Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/07-Chain-of-Thought.html"><strong>Chain-of-Thought (CoT) Prompting</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/08-ReAct-prompting.html">ReAct Prompting (Reason + Act)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/09-Tool-calling-Function-calling.html">Tool &amp; Function Calling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/10-Structured-generation.html">Structured Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../04-Core-LLM-Generation-Concepts/11-Multimodal-generation.html">Multimodal Generation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/overview.html">Retrieval &amp; Knowledge Concepts Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/01-Retrieval-Augmented-Generation.html">Retrieval-Augmented Generation (RAG)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/02-Embeddings.html">Embeddings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/03-11-Beam_Search.html">Beam Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/03-Semantic-search.html">Semantic Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/04-Hybrid-search.html">Hybrid Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/05-Chunking.html">Chunking and Chunk Overlap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/06-Re-ranking.html">Re-Ranking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/07-Indexing.html">Indexing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/08-Knowledge-grounding.html">Knowledge Grounding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-Retrieval-Knowledge-Concepts/09-Citation-generation.html">Citation Generation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../07-Generation-Control-Safety/overview.html">Generation Control &amp; Safety Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/01-Hallucination.html">Hallucination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/02-Guardrails.html">Guardrails</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/03-Content-moderation.html">Content Moderation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/04-Safety-alignment.html">Safety Alignment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/05-Bias-mitigation.html">Bias Mitigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/06-Toxicity-filtering.html">Toxicity Filtering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/07-Red-teaming.html">Red Teaming in Generative AI (GenAI)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/08-Output-constraints.html">Output Constraints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../07-Generation-Control-Safety/09-Prompt-injection.html">Prompt Injection</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../08-Model-Data-Operations/overview.html">Model &amp; Data Operations Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/01-Model-serving.html">Model Serving</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/02-Model-routing.html">Model Routing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/03-Model-fallback.html">Model Fallback</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/04-Distillation.html">Knowledge Distillation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/05-Quantization.html">Quantization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/06-Caching.html">Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/07-Token-optimization.html">Token Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/08-Cost-optimization.html">Cost Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../08-Model-Data-Operations/08-Model-Data-Operations.html">Model–Data Operations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../09-Architecture-Infrastructure/overview.html">Architecture &amp; Infrastructure Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/01-Inference-pipeline.html">Inference Pipeline in Generative AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/02-Orchestration-layer.html">Orchestration Layer in Generative AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/03-LLM-gateway.html">LLM Gateway</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/04-API-management.html">API Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/05-Microservices-architecture.html">Microservice Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/06-Distributed-systems.html">Distributed Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/07-Event-driven-pipelines.html">Event-Driven Pipelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/08-Horizontal-scaling.html">Horizontal Scaling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/09-Architecture-Infrastructure.html">Architecture &amp; Infrastructure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/09-Load-balancing.html">Load Balancing in Generative AI Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../09-Architecture-Infrastructure/10-Rate-limiting.html">Rate Limiting</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/overview.html">Data &amp; Knowledge Infrastructure Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/01-Data-ingestion.html">Data Ingestion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/02-ETL-for-GenAI.html">ETL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/03-Data-pipelines.html">Data Pipelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/04-Vector-databases.html">Vector Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/05-Metadata-stores.html">Metadata Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/06-Feature-stores.html">Feature Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10-Data-Knowledge-Infrastructure/07-Document-stores.html">Document Stores</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../11-Performance-Reliability/overview.html">Performance &amp; Reliability Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/01-Latency-optimization.html">Latency Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/02-Throughput-optimization.html">Throughput Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/03-Streaming.html">Streaming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/04-Asynchronous-processing.html">Asynchronous Processing</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/05-Backpressure-control.html">Backpressure Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/06-Circuit-breakers.html">Circuit Breakers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/07-Retries-timeouts.html">Retries &amp; Timeout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/08-Graceful-degradation.html">Graceful Degradation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../11-Performance-Reliability/11-Performance-Reliability.html">Performance Reliability</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../12-Security-Compliance/overview.html">Security &amp; Compliance Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../12-Security-Compliance/01-Data-privacy.html">Data Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../12-Security-Compliance/02-PII-detection-redaction.html">PII Detection &amp; Redaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../12-Security-Compliance/03-Encryption.html">Encryption</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../12-Security-Compliance/04-Access-control.html">Access Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../12-Security-Compliance/05-Authentication-authorization.html">Authentication &amp; Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../12-Security-Compliance/06-Audit-logging.html">Audit Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../12-Security-Compliance/07-Compliance-frameworks.html">Compliance Framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../12-Security-Compliance/08-Prompt-injection-defense.html">Prompt Injection Defense</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../12-Security-Compliance/12-Security-Compliance.html">Security &amp; Compliance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../13-Observability-Governance/overview.html">Observability &amp; Governance Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/01-Logging.html">Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/02-Monitoring.html">Monitoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/03-Tracing.html">Tracing in Generative AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/04-Quality-evaluation.html">Quality Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/05-Hallucination-tracking.html">Hallucination Tracking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/06-Feedback-loops.html">Feedback Loops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/07-AB-testing.html">A/B Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/08-Model-governance.html">Model Governance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/09-Policy-enforcement.html">Policy Enforcement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../13-Observability-Governance/13-Observability-Governance.html">Observability Governance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../14-Advanced-GenAI-Systems/overview.html">Advanced GenAI Systems Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/01-Agentic-systems.html">Agentic Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/02-Multi-agent-orchestration.html">Multi-Agent Orchestration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/03-Autonomous-workflows.html">Autonomous Workflows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/04-Tool-ecosystems.html">Tool Ecosystems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/05-Workflow-engines.html">Workflow Engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/06-Planning-reasoning-systems.html">Planning &amp; Reasoning Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/07-Self-reflection-loops.html">Self-Reflection Loops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../14-Advanced-GenAI-Systems/08-Multimodal-pipelines.html">Multi-Modal Pipeline</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../15-Product-Lifecycle-Management/overview.html">Product &amp; Lifecycle Management Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../15-Product-Lifecycle-Management/01-Prompt-lifecycle-management.html">Prompt Lifecycle Management (PLM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-Product-Lifecycle-Management/02-Model-lifecycle-management.html">Model Lifecycle Management (MLM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-Product-Lifecycle-Management/03-Continuous-learning.html">Continuous Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-Product-Lifecycle-Management/04-Human-in-the-loop-systems.html">Human-in-the-Loop (HITL) Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-Product-Lifecycle-Management/05-Release-management.html">Release Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-Product-Lifecycle-Management/06-Rollbacks.html">Rollbacks in Generative AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../15-Product-Lifecycle-Management/07-Experimentation-frameworks.html">Experimental Frameworks</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/svgoudar/Learn-ML-and-NLP/blob/master/Gen-AI/02-Key-Architectural-Components/01-Self-Attention.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/Learn-ML-and-NLP" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/Learn-ML-and-NLP/issues/new?title=Issue%20on%20page%20%2FGen-AI/02-Key-Architectural-Components/01-Self-Attention.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/Gen-AI/02-Key-Architectural-Components/01-Self-Attention.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Attention Mechanism</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-attention-does-intuition"><strong>1. What Attention Does (Intuition)</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-attention-works-simple-explanation"><strong>2. How Attention Works (Simple Explanation)</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-self-attention-is-powerful"><strong>3. Why Self-Attention Is Powerful</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-head-attention"><strong>4. Multi-Head Attention</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-llms-scale-so-well-with-attention"><strong>5. Why LLMs Scale So Well with Attention</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advantages">Advantages:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#disadvantages">Disadvantages:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-attention-in-llms"><strong>6. Types of Attention in LLMs</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-easy-version"><strong>7. Summary (Easy Version)</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sentence"><strong>Sentence</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-token-embeddings-toy-2-dimensional-vectors"><strong>Step 1 — Token embeddings (toy 2-dimensional vectors)</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-define-wq-wk-wv-matrices-simple-numbers"><strong>Step 2 — Define WQ, WK, WV matrices (simple numbers)</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-compute-q-k-v-for-each-token"><strong>Step 3 — Compute Q, K, V for each token</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for-cat">For <strong>“cat”</strong>:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for-keys">For <strong>keys</strong>:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for-values">For <strong>values</strong>:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-compute-attention-scores-using-q-k"><strong>Step 4 — Compute attention scores using Q · Kᵀ</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#score-cat-the">Score(cat → The)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#score-cat-cat">Score(cat → cat)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#score-cat-sleeps">Score(cat → sleeps)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#raw-scores">Raw scores:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-apply-softmax-to-scores"><strong>Step 5 — Apply softmax to scores</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#final-attention-weights">Final attention weights:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-weighted-sum-of-value-vectors"><strong>Step 6 — Weighted sum of Value vectors</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-the">From “The”</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-cat">From “cat”</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-sleeps">From “sleeps”</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-add-all-weighted-values"><strong>Step 7 — Add all weighted values</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#final-attention-output-for-cat"><strong>Final attention output for “cat”:</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretation"><strong>Interpretation</strong></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <nav class="contents" id="contents" role="doc-toc">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#attention-mechanism" id="id1">Attention Mechanism</a></p>
+<ul>
+<li><p><a class="reference internal" href="#what-attention-does-intuition" id="id2"><strong>1. What Attention Does (Intuition)</strong></a></p></li>
+<li><p><a class="reference internal" href="#how-attention-works-simple-explanation" id="id3"><strong>2. How Attention Works (Simple Explanation)</strong></a></p></li>
+<li><p><a class="reference internal" href="#why-self-attention-is-powerful" id="id4"><strong>3. Why Self-Attention Is Powerful</strong></a></p></li>
+<li><p><a class="reference internal" href="#multi-head-attention" id="id5"><strong>4. Multi-Head Attention</strong></a></p></li>
+<li><p><a class="reference internal" href="#why-llms-scale-so-well-with-attention" id="id6"><strong>5. Why LLMs Scale So Well with Attention</strong></a></p>
+<ul>
+<li><p><a class="reference internal" href="#advantages" id="id7">Advantages:</a></p></li>
+<li><p><a class="reference internal" href="#disadvantages" id="id8">Disadvantages:</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#types-of-attention-in-llms" id="id9"><strong>6. Types of Attention in LLMs</strong></a></p></li>
+<li><p><a class="reference internal" href="#summary-easy-version" id="id10"><strong>7. Summary (Easy Version)</strong></a></p></li>
+<li><p><a class="reference internal" href="#sentence" id="id11"><strong>Sentence</strong></a></p></li>
+<li><p><a class="reference internal" href="#step-1-token-embeddings-toy-2-dimensional-vectors" id="id12"><strong>Step 1 — Token embeddings (toy 2-dimensional vectors)</strong></a></p></li>
+<li><p><a class="reference internal" href="#step-2-define-wq-wk-wv-matrices-simple-numbers" id="id13"><strong>Step 2 — Define WQ, WK, WV matrices (simple numbers)</strong></a></p></li>
+<li><p><a class="reference internal" href="#step-3-compute-q-k-v-for-each-token" id="id14"><strong>Step 3 — Compute Q, K, V for each token</strong></a></p>
+<ul>
+<li><p><a class="reference internal" href="#for-cat" id="id15">For <strong>“cat”</strong>:</a></p></li>
+<li><p><a class="reference internal" href="#for-keys" id="id16">For <strong>keys</strong>:</a></p></li>
+<li><p><a class="reference internal" href="#for-values" id="id17">For <strong>values</strong>:</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#step-4-compute-attention-scores-using-q-k" id="id18"><strong>Step 4 — Compute attention scores using Q · Kᵀ</strong></a></p>
+<ul>
+<li><p><a class="reference internal" href="#score-cat-the" id="id19">Score(cat → The)</a></p></li>
+<li><p><a class="reference internal" href="#score-cat-cat" id="id20">Score(cat → cat)</a></p></li>
+<li><p><a class="reference internal" href="#score-cat-sleeps" id="id21">Score(cat → sleeps)</a></p></li>
+<li><p><a class="reference internal" href="#raw-scores" id="id22">Raw scores:</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#step-5-apply-softmax-to-scores" id="id23"><strong>Step 5 — Apply softmax to scores</strong></a></p></li>
+<li><p><a class="reference internal" href="#final-attention-weights" id="id24">Final attention weights:</a></p></li>
+<li><p><a class="reference internal" href="#step-6-weighted-sum-of-value-vectors" id="id25"><strong>Step 6 — Weighted sum of Value vectors</strong></a></p>
+<ul>
+<li><p><a class="reference internal" href="#from-the" id="id26">From “The”</a></p></li>
+<li><p><a class="reference internal" href="#from-cat" id="id27">From “cat”</a></p></li>
+<li><p><a class="reference internal" href="#from-sleeps" id="id28">From “sleeps”</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#step-7-add-all-weighted-values" id="id29"><strong>Step 7 — Add all weighted values</strong></a></p>
+<ul>
+<li><p><a class="reference internal" href="#final-attention-output-for-cat" id="id30"><strong>Final attention output for “cat”:</strong></a></p></li>
+<li><p><a class="reference internal" href="#interpretation" id="id31"><strong>Interpretation</strong></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+<section id="attention-mechanism">
+<h1><a class="toc-backref" href="#id1" role="doc-backlink">Attention Mechanism</a><a class="headerlink" href="#attention-mechanism" title="Permalink to this heading">#</a></h1>
+<p><strong>Attention Mechanism</strong> is the core operation inside Transformers (and therefore LLMs) that allows the model to <strong>focus on the most relevant tokens</strong> in a sequence when generating or understanding text.</p>
+<p>Below is a clean explanation.</p>
+<hr class="docutils" />
+<section id="what-attention-does-intuition">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink"><strong>1. What Attention Does (Intuition)</strong></a><a class="headerlink" href="#what-attention-does-intuition" title="Permalink to this heading">#</a></h2>
+<p>For every word (token), the model asks:</p>
+<p><strong>“Which other words in the sentence should I pay attention to?”</strong></p>
+<p>Example:
+In the sentence <em>“The cat sat on the mat because it was tired.”</em>
+The model must understand that <strong>“it” refers to “cat”</strong>, not “mat”.</p>
+<p>Attention assigns <strong>scores</strong> to all token pairs to decide relevance.</p>
+</section>
+<hr class="docutils" />
+<section id="how-attention-works-simple-explanation">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink"><strong>2. How Attention Works (Simple Explanation)</strong></a><a class="headerlink" href="#how-attention-works-simple-explanation" title="Permalink to this heading">#</a></h2>
+<p>Each token is converted into three vectors:</p>
+<ol class="arabic simple">
+<li><p><strong>Q (Query)</strong> – What this token is looking for</p></li>
+<li><p><strong>K (Key)</strong> – What this token offers</p></li>
+<li><p><strong>V (Value)</strong> – Actual information content</p></li>
+</ol>
+<p>Then attention is computed as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Attention = softmax( Q · Kᵀ / √d ) · V
+</pre></div>
+</div>
+<p>Where:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Q</span> <span class="pre">·</span> <span class="pre">Kᵀ</span></code> = similarity between tokens</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">√d</span></code> = scaling factor</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">softmax</span></code> = turns scores into probabilities</p></li>
+<li><p>The result is a <strong>weighted mix of all value vectors</strong></p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="why-self-attention-is-powerful">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink"><strong>3. Why Self-Attention Is Powerful</strong></a><a class="headerlink" href="#why-self-attention-is-powerful" title="Permalink to this heading">#</a></h2>
+<p>Self-attention lets each token look at <em>all</em> other tokens simultaneously.
+This allows the model to learn:</p>
+<ul class="simple">
+<li><p>long-range dependencies</p></li>
+<li><p>context relationships</p></li>
+<li><p>meaning across distant words</p></li>
+<li><p>structural patterns</p></li>
+</ul>
+<p>Traditional RNNs could not do this efficiently.</p>
+</section>
+<hr class="docutils" />
+<section id="multi-head-attention">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink"><strong>4. Multi-Head Attention</strong></a><a class="headerlink" href="#multi-head-attention" title="Permalink to this heading">#</a></h2>
+<p>Instead of one attention calculation, LLMs use <strong>multiple heads</strong>.</p>
+<p>Each head learns:</p>
+<ul class="simple">
+<li><p>different types of relationships</p></li>
+<li><p>different semantic patterns</p></li>
+</ul>
+<p>Example heads:</p>
+<ul class="simple">
+<li><p>“subject → verb” relationships</p></li>
+<li><p>“coreference” (pronoun resolution)</p></li>
+<li><p>“syntax patterns”</p></li>
+<li><p>“entity tracking”</p></li>
+<li><p>“reasoning links”</p></li>
+</ul>
+<p>All heads are concatenated and combined.</p>
+</section>
+<hr class="docutils" />
+<section id="why-llms-scale-so-well-with-attention">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink"><strong>5. Why LLMs Scale So Well with Attention</strong></a><a class="headerlink" href="#why-llms-scale-so-well-with-attention" title="Permalink to this heading">#</a></h2>
+<section id="advantages">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">Advantages:</a><a class="headerlink" href="#advantages" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Parallelizable (unlike RNNs)</p></li>
+<li><p>Global context understanding</p></li>
+<li><p>Works for very long sequences</p></li>
+<li><p>Learns complex reasoning patterns</p></li>
+</ul>
+</section>
+<section id="disadvantages">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">Disadvantages:</a><a class="headerlink" href="#disadvantages" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Quadratic compute cost: O(n²) (each token looks at all tokens)</p></li>
+</ul>
+<p>This is why modern models use:</p>
+<ul class="simple">
+<li><p>Sliding window attention</p></li>
+<li><p>Sparse attention</p></li>
+<li><p>FlashAttention</p></li>
+<li><p>ALiBi, RoPE embeddings</p></li>
+<li><p>Long-context optimization</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="types-of-attention-in-llms">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink"><strong>6. Types of Attention in LLMs</strong></a><a class="headerlink" href="#types-of-attention-in-llms" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Self-attention</strong>: token attends to <em>other tokens</em> in same input</p></li>
+<li><p><strong>Cross-attention</strong> (in encoder–decoder): decoder attends to encoder output</p></li>
+<li><p><strong>Causal attention</strong> (GPT-style): token can only attend to <em>earlier</em> tokens</p></li>
+</ul>
+<p>Causal attention ensures next-token prediction is valid.</p>
+</section>
+<hr class="docutils" />
+<section id="summary-easy-version">
+<h2><a class="toc-backref" href="#id10" role="doc-backlink"><strong>7. Summary (Easy Version)</strong></a><a class="headerlink" href="#summary-easy-version" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Attention lets LLMs decide <em>which words matter most</em>.</p></li>
+<li><p>It uses <strong>Q, K, V vectors</strong> to compute relevance.</p></li>
+<li><p>Multi-head attention captures many relationships at once.</p></li>
+<li><p>It enables long-context understanding and reasoning.</p></li>
+</ul>
+<p>Below is a <strong>simple, clear, step-by-step demonstration</strong> of the <strong>attention mechanism</strong>, using a small sentence with tiny numbers so you can see exactly how attention is computed.</p>
+<p>I will show:</p>
+<ol class="arabic simple">
+<li><p>Token embeddings</p></li>
+<li><p>How Q, K, V are computed</p></li>
+<li><p>How attention scores are produced</p></li>
+<li><p>Softmax</p></li>
+<li><p>Weighted sum of values</p></li>
+<li><p>Final attention output</p></li>
+</ol>
+<p>Everything is numeric, simple, and visible.</p>
+</section>
+<hr class="docutils" />
+<section id="sentence">
+<h2><a class="toc-backref" href="#id11" role="doc-backlink"><strong>Sentence</strong></a><a class="headerlink" href="#sentence" title="Permalink to this heading">#</a></h2>
+<p><strong>“The cat sleeps.”</strong></p>
+<p>Tokens:</p>
+<ol class="arabic simple">
+<li><p>The</p></li>
+<li><p>cat</p></li>
+<li><p>sleeps</p></li>
+</ol>
+<p>We will compute <strong>attention for the token “cat”</strong> (token 2).</p>
+</section>
+<hr class="docutils" />
+<section id="step-1-token-embeddings-toy-2-dimensional-vectors">
+<h2><a class="toc-backref" href="#id12" role="doc-backlink"><strong>Step 1 — Token embeddings (toy 2-dimensional vectors)</strong></a><a class="headerlink" href="#step-1-token-embeddings-toy-2-dimensional-vectors" title="Permalink to this heading">#</a></h2>
+<p>These are not real embeddings; just example numeric vectors.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x_the</span>    <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">x_cat</span>    <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">x_sleeps</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="step-2-define-wq-wk-wv-matrices-simple-numbers">
+<h2><a class="toc-backref" href="#id13" role="doc-backlink"><strong>Step 2 — Define WQ, WK, WV matrices (simple numbers)</strong></a><a class="headerlink" href="#step-2-define-wq-wk-wv-matrices-simple-numbers" title="Permalink to this heading">#</a></h2>
+<p>These are the <em>learned weights</em> in real LLMs, but here we use simple matrices.</p>
+<p>Assume:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">WQ</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+      <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+
+<span class="n">WK</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+      <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+
+<span class="n">WV</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+      <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="step-3-compute-q-k-v-for-each-token">
+<h2><a class="toc-backref" href="#id14" role="doc-backlink"><strong>Step 3 — Compute Q, K, V for each token</strong></a><a class="headerlink" href="#step-3-compute-q-k-v-for-each-token" title="Permalink to this heading">#</a></h2>
+<p>Use the formula:</p>
+<div class="math notranslate nohighlight">
+\[
+Q = XW_Q,;; K = XW_K,;; V = XW_V
+\]</div>
+<section id="for-cat">
+<h3><a class="toc-backref" href="#id15" role="doc-backlink">For <strong>“cat”</strong>:</a><a class="headerlink" href="#for-cat" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Q_cat</span> <span class="o">=</span> <span class="n">x_cat</span> <span class="o">@</span> <span class="n">WQ</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">@</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]]</span> 
+       <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="o">*</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span><span class="o">*</span><span class="mi">0</span> <span class="p">,</span> <span class="mi">0</span><span class="o">*</span><span class="mi">0</span> <span class="o">+</span> <span class="mi">1</span><span class="o">*</span><span class="mi">1</span><span class="p">]</span> 
+       <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="for-keys">
+<h3><a class="toc-backref" href="#id16" role="doc-backlink">For <strong>keys</strong>:</a><a class="headerlink" href="#for-keys" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">K_the</span>    <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">@</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">K_cat</span>    <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">@</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">K_sleeps</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">@</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="for-values">
+<h3><a class="toc-backref" href="#id17" role="doc-backlink">For <strong>values</strong>:</a><a class="headerlink" href="#for-values" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">V_the</span>    <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">@</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">V_cat</span>    <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">@</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">V_sleeps</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">@</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="step-4-compute-attention-scores-using-q-k">
+<h2><a class="toc-backref" href="#id18" role="doc-backlink"><strong>Step 4 — Compute attention scores using Q · Kᵀ</strong></a><a class="headerlink" href="#step-4-compute-attention-scores-using-q-k" title="Permalink to this heading">#</a></h2>
+<div class="math notranslate nohighlight">
+\[
+\text{score} = Q_{cat} \cdot K^T
+\]</div>
+<section id="score-cat-the">
+<h3><a class="toc-backref" href="#id19" role="doc-backlink">Score(cat → The)</a><a class="headerlink" href="#score-cat-the" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[0,1] · [1,1] = 0*1 + 1*1 = 1
+</pre></div>
+</div>
+</section>
+<section id="score-cat-cat">
+<h3><a class="toc-backref" href="#id20" role="doc-backlink">Score(cat → cat)</a><a class="headerlink" href="#score-cat-cat" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[0,1] · [0,1] = 0*0 + 1*1 = 1
+</pre></div>
+</div>
+</section>
+<section id="score-cat-sleeps">
+<h3><a class="toc-backref" href="#id21" role="doc-backlink">Score(cat → sleeps)</a><a class="headerlink" href="#score-cat-sleeps" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[0,1] · [1,2] = 0*1 + 1*2 = 2
+</pre></div>
+</div>
+</section>
+<section id="raw-scores">
+<h3><a class="toc-backref" href="#id22" role="doc-backlink">Raw scores:</a><a class="headerlink" href="#raw-scores" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="step-5-apply-softmax-to-scores">
+<h2><a class="toc-backref" href="#id23" role="doc-backlink"><strong>Step 5 — Apply softmax to scores</strong></a><a class="headerlink" href="#step-5-apply-softmax-to-scores" title="Permalink to this heading">#</a></h2>
+<p>Softmax converts scores to probabilities (attention weights).</p>
+<p>Compute exponentials:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">exp</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span> <span class="o">=</span> <span class="p">[</span><span class="mf">2.718</span><span class="p">,</span> <span class="mf">2.718</span><span class="p">,</span> <span class="mf">7.389</span><span class="p">]</span>
+<span class="nb">sum</span> <span class="o">=</span> <span class="mf">12.825</span>
+</pre></div>
+</div>
+<p>Attention weights:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mf">2.718</span><span class="o">/</span><span class="mf">12.825</span> <span class="p">,</span> <span class="mf">2.718</span><span class="o">/</span><span class="mf">12.825</span> <span class="p">,</span> <span class="mf">7.389</span><span class="o">/</span><span class="mf">12.825</span><span class="p">]</span>
+<span class="o">=</span> <span class="p">[</span><span class="mf">0.212</span> <span class="p">,</span> <span class="mf">0.212</span> <span class="p">,</span> <span class="mf">0.576</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="final-attention-weights">
+<h2><a class="toc-backref" href="#id24" role="doc-backlink">Final attention weights:</a><a class="headerlink" href="#final-attention-weights" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span>    <span class="o">=</span> <span class="mf">0.212</span>
+<span class="n">cat</span>    <span class="o">=</span> <span class="mf">0.212</span>
+<span class="n">sleeps</span> <span class="o">=</span> <span class="mf">0.576</span>
+</pre></div>
+</div>
+<p>Interpretation:</p>
+<ul class="simple">
+<li><p>“sleeps” is most relevant to “cat”</p></li>
+<li><p>“The” and “cat” have lower relevance</p></li>
+</ul>
+<p>This makes sense: <strong>“cat sleeps”</strong> is a strong phrase.</p>
+</section>
+<hr class="docutils" />
+<section id="step-6-weighted-sum-of-value-vectors">
+<h2><a class="toc-backref" href="#id25" role="doc-backlink"><strong>Step 6 — Weighted sum of Value vectors</strong></a><a class="headerlink" href="#step-6-weighted-sum-of-value-vectors" title="Permalink to this heading">#</a></h2>
+<p>Now multiply each V vector with its attention weight.</p>
+<section id="from-the">
+<h3><a class="toc-backref" href="#id26" role="doc-backlink">From “The”</a><a class="headerlink" href="#from-the" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.212</span> <span class="o">*</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.212</span> <span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="from-cat">
+<h3><a class="toc-backref" href="#id27" role="doc-backlink">From “cat”</a><a class="headerlink" href="#from-cat" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.212</span> <span class="o">*</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="p">,</span> <span class="mf">0.424</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="from-sleeps">
+<h3><a class="toc-backref" href="#id28" role="doc-backlink">From “sleeps”</a><a class="headerlink" href="#from-sleeps" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.576</span> <span class="o">*</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.576</span> <span class="p">,</span> <span class="mf">1.152</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="step-7-add-all-weighted-values">
+<h2><a class="toc-backref" href="#id29" role="doc-backlink"><strong>Step 7 — Add all weighted values</strong></a><a class="headerlink" href="#step-7-add-all-weighted-values" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mf">0.212</span> <span class="p">,</span> <span class="mi">0</span><span class="p">]</span> 
+<span class="o">+</span> <span class="p">[</span><span class="mi">0</span> <span class="p">,</span> <span class="mf">0.424</span><span class="p">]</span>
+<span class="o">+</span> <span class="p">[</span><span class="mf">0.576</span> <span class="p">,</span> <span class="mf">1.152</span><span class="p">]</span>
+<span class="o">=</span> <span class="p">[</span><span class="mf">0.788</span> <span class="p">,</span> <span class="mf">1.576</span><span class="p">]</span>
+</pre></div>
+</div>
+<section id="final-attention-output-for-cat">
+<h3><a class="toc-backref" href="#id30" role="doc-backlink"><strong>Final attention output for “cat”:</strong></a><a class="headerlink" href="#final-attention-output-for-cat" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mf">0.788</span> <span class="p">,</span> <span class="mf">1.576</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>This is the new, context-aware representation of the token “cat”.</p>
+</section>
+<hr class="docutils" />
+<section id="interpretation">
+<h3><a class="toc-backref" href="#id31" role="doc-backlink"><strong>Interpretation</strong></a><a class="headerlink" href="#interpretation" title="Permalink to this heading">#</a></h3>
+<p>The model internally computed:</p>
+<ul class="simple">
+<li><p>“cat” relates strongly to “sleeps” → highest attention weight</p></li>
+<li><p>“cat” relates moderately to “The” and itself</p></li>
+<li><p>It created a new vector representing “cat in context”</p></li>
+</ul>
+<p>This vector goes into the next transformer layer.</p>
+<hr class="docutils" />
+<p><strong>Summary</strong></p>
+<ol class="arabic simple">
+<li><p>Tokens → embeddings</p></li>
+<li><p>Multiply by WQ, WK, WV → get Q, K, V</p></li>
+<li><p>Compute attention scores (dot product Q·Kᵀ)</p></li>
+<li><p>Apply softmax → weights</p></li>
+<li><p>Weighted sum of V → attention output</p></li>
+</ol>
+<p>This is exactly how attention works in LLMs.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Gen-AI\02-Key-Architectural-Components"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="overview.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Key Architectural Components Overview</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="02-Multi-Head-Attention.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Multi-Head Attention</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-attention-does-intuition"><strong>1. What Attention Does (Intuition)</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-attention-works-simple-explanation"><strong>2. How Attention Works (Simple Explanation)</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-self-attention-is-powerful"><strong>3. Why Self-Attention Is Powerful</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-head-attention"><strong>4. Multi-Head Attention</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-llms-scale-so-well-with-attention"><strong>5. Why LLMs Scale So Well with Attention</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advantages">Advantages:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#disadvantages">Disadvantages:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-attention-in-llms"><strong>6. Types of Attention in LLMs</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-easy-version"><strong>7. Summary (Easy Version)</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sentence"><strong>Sentence</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-token-embeddings-toy-2-dimensional-vectors"><strong>Step 1 — Token embeddings (toy 2-dimensional vectors)</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-define-wq-wk-wv-matrices-simple-numbers"><strong>Step 2 — Define WQ, WK, WV matrices (simple numbers)</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-compute-q-k-v-for-each-token"><strong>Step 3 — Compute Q, K, V for each token</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for-cat">For <strong>“cat”</strong>:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for-keys">For <strong>keys</strong>:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for-values">For <strong>values</strong>:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-compute-attention-scores-using-q-k"><strong>Step 4 — Compute attention scores using Q · Kᵀ</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#score-cat-the">Score(cat → The)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#score-cat-cat">Score(cat → cat)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#score-cat-sleeps">Score(cat → sleeps)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#raw-scores">Raw scores:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-apply-softmax-to-scores"><strong>Step 5 — Apply softmax to scores</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#final-attention-weights">Final attention weights:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-weighted-sum-of-value-vectors"><strong>Step 6 — Weighted sum of Value vectors</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-the">From “The”</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-cat">From “cat”</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-sleeps">From “sleeps”</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-add-all-weighted-values"><strong>Step 7 — Add all weighted values</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#final-attention-output-for-cat"><strong>Final attention output for “cat”:</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretation"><strong>Interpretation</strong></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By svgoudar
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
