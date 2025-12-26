@@ -1,0 +1,49 @@
+format: jb-book
+root: intro
+parts:
+  - chapters:
+      - file: Gen-AI/01-Model-Families/overview
+        sections:
+          - glob: Gen-AI/01-Model-Families/*
+      - file: Gen-AI/02-Key-Architectural-Components/overview
+        sections:
+          - glob: Gen-AI/02-Key-Architectural-Components/*
+      - file: Gen-AI/03-Model-Training-Concepts/overview
+        sections:
+          - glob: Gen-AI/03-Model-Training-Concepts/*
+      - file: Gen-AI/04-Core-LLM-Generation-Concepts/overview
+        sections:
+          - glob: Gen-AI/04-Core-LLM-Generation-Concepts/*
+      - file: Gen-AI/05-Retrieval-Knowledge-Concepts/overview
+        sections:
+          - glob: Gen-AI/05-Retrieval-Knowledge-Concepts/*
+      - file: Gen-AI/06-Memory-Context-Management/overview
+        sections:
+          - glob: Gen-AI/06-Memory-Context-Management/*
+      - file: Gen-AI/07-Generation-Control-Safety/overview
+        sections:
+          - glob: Gen-AI/07-Generation-Control-Safety/*
+      - file: Gen-AI/08-Model-Data-Operations/overview
+        sections:
+          - glob: Gen-AI/08-Model-Data-Operations/*
+      - file: Gen-AI/09-Architecture-Infrastructure/overview
+        sections:
+          - glob: Gen-AI/09-Architecture-Infrastructure/*
+      - file: Gen-AI/10-Data-Knowledge-Infrastructure/overview
+        sections:
+          - glob: Gen-AI/10-Data-Knowledge-Infrastructure/*
+      - file: Gen-AI/11-Performance-Reliability/overview
+        sections:
+          - glob: Gen-AI/11-Performance-Reliability/*
+      - file: Gen-AI/12-Security-Compliance/overview
+        sections:
+          - glob: Gen-AI/12-Security-Compliance/*
+      - file: Gen-AI/13-Observability-Governance/overview
+        sections:
+          - glob: Gen-AI/13-Observability-Governance/*
+      - file: Gen-AI/14-Advanced-GenAI-Systems/overview
+        sections:
+          - glob: Gen-AI/14-Advanced-GenAI-Systems/*
+      - file: Gen-AI/15-Product-Lifecycle-Management/overview
+        sections:
+          - glob: Gen-AI/15-Product-Lifecycle-Management/*
